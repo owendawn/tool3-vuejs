@@ -26,7 +26,7 @@
   <div id="root" style="height:100%;">
     <pan-navbar title="图片转动画"></pan-navbar>
 
-    <div style="height:calc(100% - 3.5rem);margin-top:3.5rem;font-size: 1rem;text-align: center;overflow: auto;">
+    <div  class="mainContainer">
       <div style="margin:12px 1rem;">
         <button class="btn btn-outline-secondary" plain @click="openVideo()"><i class="fa fa-folder-open"></i></button>
         <button class="btn btn-outline-success" plain @click="initAll" :disabled="start">初始化所有配置参数</button>
@@ -43,7 +43,7 @@
         
       </div>
       <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
-        <div style="height: 33%;background-color: black;">
+        <div style="height: 33%;background-color: black;text-align: center;">
           <video style="max-width:100%;background-color: black;margin-top: 0.2rem;height:100%;margin:0;" ref="video"
             controls muted></video>
         </div>

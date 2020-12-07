@@ -26,9 +26,9 @@
   <div id="root" style="height:100%;">
     <pan-navbar title="车辆识别号解析"></pan-navbar>
 
-    <div style="height:calc(100% - 3.5rem);margin-top:3.5rem;font-size: 1rem;text-align: center;">
+    <div class="mainContainer">
 
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 mt-3">
         <span class="input-group-text">车辆识别号 / 车架号：</span>
         <input type="text" class="form-control" aria-label="" v-model="raw">
         <button class="btn btn-outline-secondary" type="button" @click="convert()">转换</button>
@@ -69,8 +69,8 @@
       el: '#root',
       data() {
         return {
-          raw: 'lfv2a21k6a3092399',
-          // raw: '',
+          // raw: 'lfv2a21k6a3092399',
+          raw: '',
           data: [],
         }
       },
