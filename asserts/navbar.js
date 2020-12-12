@@ -39,7 +39,10 @@ Vue.component("pan-navbar", {
       '       style="display:none;box-shadow: rgba(96, 93, 93, 0.5) -5px -1px 5px;overflow: auto;width:100%;height: 100%;position: fixed;right: 0;z-index: 9999;top: 0;">',
       '       <div @click="toggleMenu" style="background: rgba(0, 0, 0, 0.7);height: 100%;position: absolute;top: 0px;width: 100%;z-index:-1;"></div>',
       '       <div style="max-width: 360px;width: 70%;height:100%;background-color: rgb(248, 248, 248);float:right;overflow:auto;" >',
-      '           <div style="text-align: center;font-weight: bolder;font-size: 2rem;padding: 34px 0;background-color: white;">- UV -</div>',
+      '           <div style="text-align: center;font-weight: bolder;font-size: 2rem;padding: 34px 0;background-color: white;">',
+      '             - UV -',
+      '           </div>',
+      '           <button @click="toggleMenu" type="button" class="btn-close" style="position: absolute;top: 8px;margin-left: 12px;"></button>',
       '           <ul class="list-group">',
       links.map(function (it, idx, all) {
         switch (it.type) {
