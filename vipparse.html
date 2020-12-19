@@ -101,11 +101,11 @@
       <div class="input-group controller">
         <div class="input-group-text p-0" style="border:0;max-width:33%">
           <select v-model="chooseParserTemp" class="form-select btn-outline-secondary" value=""
-            aria-label="" style="border-radius: 0;">
+            aria-label="" style="border-radius: 0;font-size: 0.66rem;line-height:1.5rem;">
             <option v-for="(it,idx) in vipParser" :value="it.url">{{it.name}}</option>
           </select>
         </div>
-        <input type="text" class="form-control" placeholder="视频地址" aria-label="" v-model="url">
+        <input type="text" class="form-control" placeholder="视频地址" aria-label="" v-model="url" style="color: #948787;font-size: 0.66rem;">
         <button class="btn btn-outline-success" type="button" @click="chooseParse"><i
             class="fa fa-exchange-alt"></i></button>
         <button class="btn btn-outline-info" type="button" @click="fullScreen"><i class="fa fa-expand"></i></button>
