@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Imager To Gray</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no,user-scalable=0">
+  <link rel="icon" href="http://pic.yupoo.com/owendawn/7d83eaa2/ac62287a.png" type="image/x-icon" />
+  <meta name="Keywords" content="vip解析,个人使用请勿用于商用传播">
+  <meta name="Description" content="vip解析,个人使用请勿用于商用传播">
+  <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
+  <!-- 引入样式 -->
+  <link href="./asserts/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  
+  <!-- 引入组件库 -->
+  <script src="./asserts/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="./asserts/bootstrap-5.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <!-- 基础样式 -->
+  <link href="./asserts/base.css" rel="stylesheet">
+  <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+
+  <script src="https://owendawn.gitee.io/resource/panbase.js"></script>
+</head>
+
+<body style="overflow: hidden;">
+  <div id="root" style="height:100%;">
+    <pan-navbar title="灰度转换"></pan-navbar>
+
+    <div  class="mainContainer">
+      <div style="margin:1rem 1rem;">
+        <button class="btn btn-outline-success" plain @click="openVideo()" ><i class="fa fa-folder-open"></i></button>
+        <input type="file" ref="imageChooser" hidden @change="changeFile">
+      </div>
+      <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
+        <img ref="rawImg" style="height: 33%;max-width: 100%;display: block;margin:auto;">
+        <img ref="toImg" style="height: 33%;max-width: 100%;display: block;margin:auto;">
+        <canvas ref="toCanvas" style="height: 33%;max-width: 100%;display: block;margin:auto;"></canvas>
+      </div>
+    </div>
+
+   
+  </div>
+
+  <script src="./asserts/navbar.js"></script>
+  <script src="./asserts/PanUtil.js"></script>
+  <script src="./asserts/grayscale.js"></script>
+  <script>
+    new Vue({
+      el: '#root',
+      data() {
+        return {
+          raw: '',
+          newVal: '',
+        }
+      },
+      mounted() {
+      },
+      methods: {
+        openVideo() {
+          var e = document.createEvent("MouseEvents");
+          e.initEvent("click", true, true);
+          this.$refs.imageChooser.dispatchEvent(e);
+        },
+        changeFile(e) {
+            var that=this;
+            console.log(e.target)
+            this.$refs.rawImg.src = URL.createObjectURL(e.target.files[0]);
+            var reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);//转化成base64数据类型
+            reader.onload = function(e){
+                that.$refs.toImg.onload = function(){//必须onload之后再画
+                    that.$refs.toImg.width=that.$refs.rawImg.width;
+                    that.$refs.toImg.height=that.$refs.rawImg.height;
+                    grayscale( that.$refs.toImg);
+                }
+                that.$refs.toImg.src=this.result;
+
+                var img = new Image;
+                img.onload = function(){//必须onload之后再画
+                    var c=that.$refs.toCanvas;
+                    var ctx=c.getContext("2d");
+                    c.width=img.width;
+                    c.height=img.height;
+                    ctx.drawImage(img,0,0);
+                    that.$refs.toCanvas.style.width=that.$refs.rawImg.width+"px";
+                    that.$refs.toCanvas.style.height=that.$refs.rawImg.height+"px";
+                    grayscale( img);
+                }
+                img.src = this.result;
+                
+            }
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

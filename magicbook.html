@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Magic Book</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no,user-scalable=0">
+  <link rel="icon" href="http://pic.yupoo.com/owendawn/7d83eaa2/ac62287a.png" type="image/x-icon" />
+  <meta name="Keywords" content="vip解析,个人使用请勿用于商用传播">
+  <meta name="Description" content="vip解析,个人使用请勿用于商用传播">
+  <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
+  <!-- 引入样式 -->
+  <link href="./asserts/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <!-- 引入组件库 -->
+  <script src="./asserts/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="./asserts/bootstrap-5.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <!-- 基础样式 -->
+  <link href="./asserts/base.css" rel="stylesheet">
+  <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+
+  <script src="https://owendawn.gitee.io/resource/panbase.js"></script>
+</head>
+
+<body style="overflow: hidden;">
+  <div id="root" style="height:100%;">
+    <pan-navbar title="问题之书"></pan-navbar>
+
+    <div class="mainContainer" style="background-color: antiquewhite;text-align: center;padding:1rem;padding-top:60px;" v-if="!isPredict">
+      <div style="font-size: 1rem;font-weight: bolder;font-family: cursive;color: #271515;font-style: oblique;">
+        忙碌的生活，快节奏的工作，烦人的感情
+        <br>
+        无数的选择，无数的困惑和无奈摆在我们面前
+        <br>
+        这个时候，你只需要打开这本书
+        <br>
+        拿走一个简单的答案和暗示
+      </div>
+      <br>
+      <div style="font-family: serif;font-weight: bolder;line-height: 2rem;color: #3b3939;font-size: 1.5rem;">
+        1.抛开心中杂念<br>2.双手虔诚的拿着手机<br>3.闭上眼睛</div>
+      <div
+        style="position: fixed;bottom: 2rem;right: calc(50% - 4rem);font-size: 1rem;height: 1.2rem;background: rgba(192, 192, 192, 0.9);border-radius: 0.2rem;padding:0 1rem;cursor:pointer"
+        @click="predict" v-if="!isPredict">
+        <div
+          style="color: rgba(255, 255, 255,0.7);height: 1rem;margin-left: 0.1rem;margin-top: 0.1rem;text-align: center;line-height: 1rem;">
+          <i class="fa fa-magic"></i> 倾听内心深处的声音
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="background-color: antiquewhite;height:calc(100% - 3.5rem);margin-top: 3.5rem;font-size: 1rem;text-align: center;padding:1rem;"
+      v-if="isPredict">
+      <div style="word-break:break-all;font-weight: bolder;font-family: cursive;color: rgb(85, 82, 82);font-style: oblique;padding: 2rem 0 0 0;font-size: 1.3rem;line-height: 2rem;">
+        {{str}}<mt-spinner type="double-bounce" style="display: inline-block;margin-left: 0.5rem;" v-if="isLoading"></mt-spinner>
+      </div>
+      <div style="word-break:break-all;font-weight: bolder;font-family: cursive;color: rgb(85, 82, 82);font-style: oblique;padding: 2rem 0 0 0;font-size: 1.3rem;line-height: 2rem;">
+        {{str2}}
+      </div>
+
+      <div
+        style="position: fixed;bottom: 2rem;right: calc(50% - 3rem);font-size: 1rem;height: 1.2rem;background: rgba(192, 192, 192, 0.9);border-radius: 0.2rem;padding:0 1rem;cursor:pointer"
+        @click="prepredict" v-if="isPredict">
+        <div
+          style="color: rgba(255, 255, 255,0.7);height: 1rem;margin-left: 0.1rem;margin-top: 0.1rem;text-align: center;line-height: 1rem;">
+          <i class="fa fa-reply-all"></i> 再一次问心
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./asserts/navbar.js"></script>
+  <script src="./asserts/PanUtil.js"></script>
+  
+  <script>
+    new Vue({
+      el: '#root',
+      data() {
+        return {
+          isPredict: false,
+          isLoading:true,
+          result:'',
+          result2:'',
+          str:'',
+          str2:'',
+        }
+      },
+      mounted() {
+
+      },
+      methods: {
+        predict() {
+          this.isPredict = true;
+          this.str=''
+          this.str2=''
+          // const url="http://localhost/tool2-vuejs/backend/api.php?m=MagicBookController!random"
+          const url=PanConfig.URL_ROOT+"/tool3-vuejs/backend/api.php?m=MagicBookController!random"
+          //  PanUtil.ajax.get(
+          //  PanUtil.jsonp(
+          //  PanUtil.jsonPostMessage(
+           PanUtil.iframePostMessage("get",
+             url,{},(re)=>{
+            this.result=re.data[0].name;
+            this.result2=re.data[0].name_en||'';
+            this.loadResult();
+          });
+        },
+        loadResult(){
+          this.isLoading=true;
+          setTimeout(()=>{
+            this.str=this.result.substring(0,this.str.length+1)
+            if(this.str.length==this.result.length){
+              this.isLoading=false;
+              this.str2=this.result2;
+            }else{
+              this.loadResult();
+            }
+          },400);
+        },
+        prepredict() {
+          this.isPredict = false;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

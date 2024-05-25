@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Coords Picker</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no,user-scalable=0">
+    <link rel="icon" href="http://pic.yupoo.com/owendawn/7d83eaa2/ac62287a.png" type="image/x-icon"/>
+    <meta name="Keywords" content="vip解析,个人使用请勿用于商用传播">
+    <meta name="Description" content="vip解析,个人使用请勿用于商用传播">
+    <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
+    <!-- 引入样式 -->
+    <link href="./asserts/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- 引入组件库 -->
+    <!--    <script src="./asserts/popper.min.js"-->
+    <!--            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"-->
+    <!--            crossorigin="anonymous"></script>-->
+    <script src="./asserts/bootstrap-5.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!-- 基础样式 -->
+    <link href="./asserts/base.css" rel="stylesheet">
+    <script src="./asserts/base.js"></script>
+    <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+
+    <script src="https://owendawn.gitee.io/resource/panbase.js"></script>
+</head>
+
+<body style="overflow: hidden;">
+<div id="root" style="height:100%;">
+    <pan-navbar title="坐标拾取器"></pan-navbar>
+
+
+    <div class="mainContainer">
+        <div class="m-3">
+
+            <div class="mb-3">
+                <label class="form-label"><span class="badge rounded-pill bg-success">火星坐标系</span>——GCJ-02</label>
+                <div class="form-text">中国国内使用的被强制加密后的坐标体系，高德坐标就属于该种坐标体系</div>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
+                    <input type="text" class="form-control" id="gcjStr" v-model="gcjStr">
+                    <button class="btn btn-outline-secondary" @click="copy('#gcjStr')"><i class="fa fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><span class="badge rounded-pill bg-success">百度坐标系</span>——BD-09</label>
+                <div class="form-text">百度地图所使用的坐标体系，是在火星坐标系的基础上又进行了一次加密处理</div>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
+                    <input type="text" class="form-control" id="bdStr" v-model="bdStr">
+                    <button class="btn btn-outline-secondary" @click="copy('#bdStr')"><i class="fa fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label"><span class="badge rounded-pill bg-success">地球坐标系</span>——WGS84</label>
+                <div class="form-text">常见于 GPS 设备，Google 地图等国际标准的坐标体系</div>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
+                    <input type="text" class="form-control" id="wgsStr" v-model="wgsStr">
+                    <button class="btn btn-outline-secondary" @click="copy('#wgsStr')"><i class="fa fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
+            <div id="container" style="height:80%;"></div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<script src="./asserts/navbar.js"></script>
+<script src="./asserts/PanUtil.js"></script>
+<script src="./asserts/coordsConvert.js"></script>
+<!--<script src="./asserts/alert.js"></script>-->
+<script type="text/javascript">
+    window._AMapSecurityConfig = {
+        securityJsCode: '872baaeb046e5af2ccd238edcc9e12ec',
+    }
+    window.init2 = function () {
+        console.warn('未初始化')
+    }
+</script>
+
+
+<script>
+    new Vue({
+        el: '#root',
+        data() {
+            return {
+                map: null,
+                gcjLat: null,
+                gcjLng: null,
+                gcjStr: null,
+                bdLat: null,
+                bdLng: null,
+                bdStr: null,
+                wgsLat: null,
+                wgsLng: null,
+                wgsStr: null
+            }
+        },
+        mounted() {
+            window.init2 = this.initMap
+        },
+        methods: {
+            initMap() {
+                this.map = new AMap.Map('container', {
+                    zoom: 16
+                })
+                AMapUI.loadUI(['misc/PositionPicker'], PositionPicker => {
+
+                    var positionPicker = new PositionPicker({
+                        mode: 'dragMap',//拖拽Marker模式
+                        map: this.map,
+                        iconStyle: {//自定义外观
+                            url: '//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
+                            size: [48, 48],  //要显示的点大小，将缩放图片
+                            ancher: [24, 40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
+                        }
+                    });
+                    positionPicker.on('success', function (positionResult) {
+                        console.log(positionResult)
+                    });
+                    positionPicker.on('fail', function (positionResult) {
+                        console.log(positionResult)
+                    });
+                    positionPicker.start();
+                    this.map.on('moveend', this.picker);
+                    this.map.on('zoomend', this.picker);
+                    this.map.on('complete', this.picker);
+                });
+
+                AMap.plugin('AMap.Geolocation', function () {
+                    var geolocation = new AMap.Geolocation({
+                        enableHighAccuracy: true, // 是否使用高精度定位，默认：true
+                        timeout: 30000, // 设置定位超时时间，默认：无穷大
+                        offset: [10, 20],  // 定位按钮的停靠位置的偏移量
+                        zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                        position: 'RB' //  定位按钮的排放位置,  RB表示右下
+                    })
+
+                    geolocation.getCurrentPosition(function (status, result) {
+                        if (status === 'complete') {
+                            console.log(result)
+                        } else {
+                            console.log(result)
+                        }
+                    });
+                });
+
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        console.log("经度: " + position.coords.longitude);
+                        console.log("纬度: " + position.coords.latitude)
+                        this.map.setCenter([position.coords.longitude, position.coords.latitude]);
+                    }, function (error) {
+                        switch (error.code) {
+                            case 1:
+                                console.warn("位置服务被拒绝。");
+                                break;
+                            case 2:
+                                console.warn("暂时获取不到位置信息。");
+                                break;
+                            case 3:
+                                console.warn("获取位置信息超时。");
+                                break;
+                            default:
+                                console.warn("未知错误。");
+                                break;
+                        }
+                    }, {timeout: 30000, enableHighAccuracy: true});
+                } else {
+                    console.log("该设备不支持地理位置服务");
+                }
+            },
+            picker() {
+                var zoom = this.map.getZoom(); //获取当前地图级别
+                var center = this.map.getCenter(); //获取当前地图中心位置
+                // console.log(center,arguments)
+                this.gcjLng = center.lng
+                this.gcjLat = center.lat
+                this.gcjStr = this.gcjLng + ',' + this.gcjLat
+                var bdarr = gcj02tobd09(this.gcjLng, this.gcjLat)
+                this.bdLng = bdarr[0]
+                this.bdLat = bdarr[1]
+                this.bdStr = this.bdLng + ',' + this.bdLat
+                var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
+                this.wgsLng = wgsArr[0]
+                this.wgsLat = wgsArr[1]
+                this.wgsStr = this.wgsLng + ',' + this.wgsLat
+            },
+            copy(selector) {
+                let transfer = document.querySelector(selector);
+                transfer.focus();
+                transfer.select();
+                if (document.execCommand('copy')) {
+                    document.execCommand('copy');
+                }
+                transfer.blur();
+                PanToast.alert('复制成功!', 'alert-info');
+            },
+        }
+    })
+</script>
+<!--异步加载 高德地图JSAPI ，注意 callback 参数-->
+<script src="//webapi.amap.com/maps?v=2.0&key=b3875afaf8329a59548f53b600222ee9&callback=init2"></script>
+<!--引入UI组件库（1.1版本） -->
+<script src="//webapi.amap.com/ui/1.1/main.js"></script>
+</body>
+
+</html>
