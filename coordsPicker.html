@@ -70,9 +70,17 @@
                 </div>
             </div>
         </div>
+        <button class="btn" :class='{"btn-outline-success":mapTypeChoose === 1,"btn-outline-secondary":mapTypeChoose === 2}'
+        type="button" @click="mapTypeChoose = 1">
+            <i class="fa fa-cloud-download-alt"> 百度地图</i>
+        </button>
+        <button  class="btn" :class='{"btn-outline-success":mapTypeChoose === 2,"btn-outline-secondary":mapTypeChoose === 1}'
+        type="button" @click="mapTypeChoose = 2">
+            <i class="fa fa-cloud-download-alt"> 高德地图</i>
+        </button>
         <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
-            <div id="container" style="height:80%;"></div>
-            <div id="baiducontainer" style="height:80%;"></div>
+            <div id="container" style="height:80%;" v-show="mapTypeChoose === 1"></div>
+            <div id="baiducontainer" style="height:80%;"  v-show="mapTypeChoose === 2"></div>
         </div>
     </div>
 </div>
@@ -108,7 +116,8 @@
                 bdStr: null,
                 wgsLat: null,
                 wgsLng: null,
-                wgsStr: null
+                wgsStr: null,
+                mapTypeChoose: 1
             }
         },
         mounted() {
