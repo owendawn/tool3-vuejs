@@ -147,7 +147,7 @@
                         console.error('failed' + this.getStatus());
                     }        
                 });
-                map.addEventListener('click', function(e) {
+                map.addEventListener('click', (e)=> {
                     console.log('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
                     var point = new BMapGL.Point(e.latlng.lng, e.latlng.lat);   
                     var marker = new BMapGL.Marker(point);        // 创建标注   
