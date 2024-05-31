@@ -24,6 +24,8 @@
     <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
 
     <script src="./asserts/panbase.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=srCloanWyKu4s8mGKrIFv0od">
+    </script>
 </head>
 
 <body style="overflow: hidden;">
@@ -70,6 +72,7 @@
         </div>
         <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
             <div id="container" style="height:80%;"></div>
+            <div id="baiducontainer" style="height:80%;display: none;"></div>
         </div>
     </div>
 </div>
@@ -109,9 +112,33 @@
             }
         },
         mounted() {
+            this.initial()
             window.init2 = this.initMap
         },
         methods: {
+            initial(){
+                let that=this;
+                var map = new BMapGL.Map("baiducontainer");
+                var point = new BMapGL.Point(116.331398,39.897445);
+                map.centerAndZoom(point,12);
+                        
+                var geolocation = new BMapGL.Geolocation();
+                // 开启SDK辅助定位
+                geolocation.enableSDKLocation();
+                geolocation.getCurrentPosition(function(r){
+                    console.log(r)
+                    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                        var mk = new BMap.Marker(r.point);
+                        map.addOverlay(mk);
+                        map.panTo(r.point);
+                        console.log('您的位置：' + r.point.lng + ',' + r.point.lat,r);
+                        that.map.setCenter([r.point.lng, r.point.lat]);
+                    }
+                    else {
+                        console.error('failed' + this.getStatus());
+                    }        
+                });
+            },
             initMap() {
                 this.map = new AMap.Map('container', {
                     zoom: 16
