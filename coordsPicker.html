@@ -72,7 +72,7 @@
         </div>
         <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
             <div id="container" style="height:80%;"></div>
-            <div id="baiducontainer" style="height:80%;display: none;"></div>
+            <div id="baiducontainer" style="height:80%;"></div>
         </div>
     </div>
 </div>
@@ -137,6 +137,25 @@
                     else {
                         console.error('failed' + this.getStatus());
                     }        
+                });
+                map.addEventListener('click', function(e) {
+                    console.log('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
+                    var point = new BMapGL.Point(e.latlng.lng, e.latlng.lat);   
+                    var marker = new BMapGL.Marker(point);        // 创建标注   
+                    map.clearOverlays()
+                    map.addOverlay(marker); 
+
+                    this.bdLng = e.latlng.lng
+                    this.bdLat = e.latlng.lat
+                    this.bdStr = this.bdLng + ',' + this.bdLat
+                    var gcjarr=bd09togcj02(this.bdLng,this.bdLat)
+                    this.gcjLng = gcjarr[0]
+                    this.gcjLat = gcjarr[1]
+                    this.gcjStr = this.gcjLng + ',' + this.gcjLat
+                    var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
+                    this.wgsLng = wgsArr[0]
+                    this.wgsLat = wgsArr[1]
+                    this.wgsStr = this.wgsLng + ',' + this.wgsLat
                 });
             },
             initMap() {
