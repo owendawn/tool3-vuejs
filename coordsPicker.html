@@ -79,6 +79,9 @@
         type="button" @click="mapTypeChoose = 2">
             <i class="fa fa-cloud-download-alt"> 百度地图</i>
         </button>
+        <button  class="btn btn-outline-info" type="button" @click="jumpTo">
+            <i class="fas fa-map-marker-alt"></i>
+        </button>
         <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
             <div id="container" style="height:80%;" v-show="mapTypeChoose === 1"></div>
             <div id="baiducontainer" style="height:80%;"  v-show="mapTypeChoose === 2"></div>
@@ -176,6 +179,25 @@
                     this.homeLat = wgsArr[1]
                 }
             },
+            jumpTo(){
+                var that=this
+                if(this.wgsLng&&this.wgsLat) {
+                    if (that.mapBaidu) {
+                        var arr = wgs84togcj02(this.wgsLng,this.wgsLat)
+                        var arr2 = gcj02tobd09(arr[0], arr[1])
+                        var pp = new BMapGL.Point(arr2[0], arr2[1]);
+                        var mk = new BMapGL.Marker(pp);
+                        that.mapBaidu.clearOverlays()
+                        that.mapBaidu.addOverlay(mk);
+                        that.mapBaidu.setCenter(pp);
+                    }
+
+                    if (that.mapGaoDe) {
+                        var arr = wgs84togcj02(this.wgsLng,this.wgsLat)
+                        that.mapGaoDe.setCenter([arr[0], arr[1]]);
+                    }
+                }
+            },
             initCoords(){
                 var that=this
                 if (navigator.geolocation) {
@@ -218,6 +240,7 @@
                             var arr2=gcj02tobd09(arr[0],arr[1])
                             var pp = new BMapGL.Point(arr2[0], arr2[1]);
                             var mk = new BMapGL.Marker(pp);
+                            that.mapBaidu.clearOverlays()
                             that.mapBaidu.addOverlay(mk);
                             that.mapBaidu.setCenter(pp);
                         }
@@ -242,6 +265,7 @@
                 geolocation.getCurrentPosition(function(r){
                     if(this.getStatus() == BMAP_STATUS_SUCCESS){
                         var mk = new BMapGL.Marker(r.point);
+                        that.mapBaidu.clearOverlays()
                         that.mapBaidu.addOverlay(mk);
                         that.mapBaidu.setCenter(new BMapGL.Point(r.point.lng, r.point.lat));
                         console.log('百度-位置：' + r.point.lng + ',' + r.point.lat,r);
@@ -255,6 +279,7 @@
                             pp = new BMapGL.Point(that.homeLng,that.homeLat);
                         }
                         var mk = new BMapGL.Marker(pp);
+                        that.mapBaidu.clearOverlays()
                         that.mapBaidu.addOverlay(mk);
                         that.mapBaidu.setCenter(new BMapGL.Point(pp.lng, pp.lat));
                     }        
