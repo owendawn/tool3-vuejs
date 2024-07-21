@@ -32,10 +32,10 @@
       <ul class="list-group">
         <li class="list-group-item">
           <div class="row" id="rawdiv">
-            <label for="staticEmail" class="col-sm-2 col-form-label">原始地址</label>
+            <label class="col-sm-2 col-form-label">原始地址</label>
             <div class="col-sm-10">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="" :value="raw">
+                <input type="text" class="form-control" placeholder="" v-model="raw">
                 <button class="btn btn-outline-success" type="button"  @click="copy('#rawdiv input')">
                   <i class="fa fa-copy"></i>
                 </button>
@@ -50,7 +50,7 @@
         </li>
         <li class="list-group-item">
           <div class="row" id="btdiv">
-            <label for="staticEmail" class="col-sm-2 col-form-label">真实地址</label>
+            <label class="col-sm-2 col-form-label">真实地址</label>
             <div class="col-sm-10">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="" :value="bturl">
@@ -74,7 +74,7 @@
         </li>
         <li class="list-group-item">
           <div class="row" id="thunderDiv">
-            <label for="staticEmail" class="col-sm-2 col-form-label">迅雷地址</label>
+            <label  class="col-sm-2 col-form-label">迅雷地址</label>
             <div class="col-sm-10">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="" :value="thunderurl">
@@ -87,7 +87,7 @@
         </li>
         <li class="list-group-item">
           <div class="row" id="flashgetdiv">
-            <label for="staticEmail" class="col-sm-2 col-form-label">快车地址</label>
+            <label class="col-sm-2 col-form-label">快车地址</label>
             <div class="col-sm-10">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="" :value="flashgeturl">
@@ -100,7 +100,7 @@
         </li>
         <li class="list-group-item">
           <div class="row" id="qqDiv">
-            <label for="staticEmail" class="col-sm-2 col-form-label">旋风地址</label>
+            <label class="col-sm-2 col-form-label">旋风地址</label>
             <div class="col-sm-10">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="" :value="qqurl">
