@@ -18,6 +18,7 @@ Vue.component("pan-navbar", {
       { type: 'link', title: '金融转换', subtitle: 'Finance Parser', url: 'financeparser.html' },
       { type: 'link', title: '经纬转换', subtitle: 'Coordinates Parser', url: 'coordsparser.html' },
       { type: 'link', title: '坐标拾取', subtitle: 'Coordinates Picker', url: 'coordsPicker.html' },
+      { type: 'link', title: '文字转换', subtitle: 'Word Transfer', url: 'wordTransfer.html' },
       { type: 'separator' },
       { type: 'link', title: '二维码生成', subtitle: 'QRCode Parser', url: 'qrcodeparser.html' },
       { type: 'link', title: '视频转动画', subtitle: 'Video To Gif', url: 'videoToGif.html' },
