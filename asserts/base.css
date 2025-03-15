@@ -11,7 +11,7 @@ html,body{
 }
 .mainContainer{
     height:100%;
-    padding-top: 3.5rem;
+    /* padding-top: 3.5rem; */
     font-size: 1rem;
     overflow: auto;
 }

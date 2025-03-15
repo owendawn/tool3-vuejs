@@ -7,12 +7,15 @@ if (baseUrlOfThisPage.endsWith("/")) {
 
 Vue.component("pan-navbar", {
   template: (function () {
+    console.log(this);
+
     var links = [
       { type: 'link', title: '仰望星空', subtitle: 'Home', url: 'index2.html' },
       { type: 'separator' },
       { type: 'link', title: 'VIP解析', subtitle: 'Vip Parser', url: 'vipparse.html' },
       { type: 'link', title: '磁力转换', subtitle: 'BT Parser', url: 'btparser.html' },
-      { type: 'link', title: '问题之书', subtitle: 'Magic Book', url: PanConfig.URL_ROOT+'/iframe.php?' + baseUrlOfThisPage + 'magicbook.html#' },
+      { type: 'link', title: '问题之书', subtitle: 'Magic Book', url: PanConfig.URL_ROOT + '/iframe.php?' + baseUrlOfThisPage + 'magicbook.html#' },
+      // { type: 'link', title: '问题之书', subtitle: 'Magic Book', url: 'magicbook.html#' },
       { type: 'separator' },
       { type: 'link', title: '个税速算', subtitle: 'Payroll Tax', url: 'payrollTax.html' },
       { type: 'link', title: '金融转换', subtitle: 'Finance Parser', url: 'financeparser.html' },
@@ -28,48 +31,58 @@ Vue.component("pan-navbar", {
     ]
     return [
       "<div class='pannav'>",
-      '   <nav class="navbar fixed-top navbar-dark bg-dark" style="background-image: linear-gradient(rgb(0 0 0), rgb(45 62 121));opacity: 0.95;">',
-      '     <div class="container-fluid">',
-      '       <a class="navbar-brand" href="index2.html"><i class="fa fa-home"></i>&emsp;{{this.title}}</a>',
-      '       <form class="d-flex">',
-      '         <button @click="toggleMenu" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">',
-      '           <span class="navbar-toggler-icon"></span>',
-      '         </button>',
-      '       </form>',
-      '     </div>',
-      '   </nav>',
-      '   <div v-show="showMenu"',
-      '       style="display:none;box-shadow: rgba(96, 93, 93, 0.5) -5px -1px 5px;overflow: auto;width:100%;height: 100%;position: fixed;right: 0;z-index: 9999;top: 0;">',
-      '       <div @click="toggleMenu" style="background: rgba(0, 0, 0, 0.7);height: 100%;position: absolute;top: 0px;width: 100%;z-index:-1;"></div>',
-      '       <div style="max-width: 360px;width: 70%;height:100%;background-color: rgb(248, 248, 248);float:right;overflow:auto;" >',
-      '           <div style="text-align: center;font-weight: bolder;font-size: 2rem;padding: 34px 0;background-color: white;">',
-      '             - UV -',
-      '           </div>',
-      '           <button @click="toggleMenu" type="button" class="btn-close" style="position: absolute;top: 8px;margin-left: 12px;"></button>',
-      '           <ul class="list-group">',
+      '   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">',
+      '       <div class="navbar-brand">',
+      '           <a class="navbar-item" href="index2.html"><i class="fa fa-home"></i>&emsp;{{this.title}}</a>',
+      '           <a role="button" class="navbar-burger"  :class="{\'is-active\':showMenu}" @click="toggleMenu" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">',
+      '               <span aria-hidden="true"></span>',
+      '               <span aria-hidden="true"></span>',
+      '               <span aria-hidden="true"></span>',
+      '               <span aria-hidden="true"></span>',
+      '           </a>',
+      '       </div>',
+      '       <div id="navbarBasicExample" class="navbar-menu" :class="{\'is-active\':showMenu}">',
+      '           <div class="navbar-start">',
+      '               <a class="navbar-item" href="index2.html">首页</a>',
+      '               <div class="navbar-item has-dropdown is-hoverable">',
+      '                   <a class="navbar-link">百宝箱</a>',
+      '                   <div class="navbar-dropdown">',
+      // '                       <a class="navbar-item">About</a>',
+      // '                       <a class="navbar-item is-selected">Jobs</a>',
+      // '                       <a class="navbar-item">Contact</a>',
+      // '                       <hr class="navbar-divider">',
+      // '                       <a class="navbar-item">Report an issue</a>',
       links.map(function (it, idx, all) {
         switch (it.type) {
           case 'link': {
             return [
-              '<li class="list-group-item">',
-              ' <a href="' + it.url + '" style="display: block;text-decoration: none;color: black;">',
-              '   ' + it.title,
+              ' <a class="navbar-item" :class="{\'is-selected\':isChooseMenu(\'' + it.title + '\')}" href="' + it.url + '" >',
+              '   <span v-html="fillTitle(\'' + it.title + '\')"></span>',
               '   <span class="float-right text-secondary">' + it.subtitle + ' <i class="fa fa-angle-right"></i></span>',
               ' </a>',
-              '</li>'
             ].join("");
           }
           case 'separator': {
-            return '<li class="list-group-item" style="background-image:linear-gradient(180deg,#d9d9d9,#d9d9d9 100%,transparent 0);padding:2px;"></li>';
+            return '<hr class="navbar-divider">';
           }
           default: {
             return '';
           }
         }
       }).join(""),
-      '         </ul>',
-      "       </div>",
-      "   </div>",
+      '                   </div>',
+      '               </div>',
+      '           </div>',
+      '           <div class="navbar-end">',
+      '               <div class="navbar-item">',
+      '                   <div class="buttons">',
+      // '                       <a class="button is-primary"><strong>^v^</strong></a>',
+      '                       <a class="button is-dark is-success">^v^</a>',
+      '                   </div>',
+      '               </div>',
+      '           </div>',
+      '       </div>',
+      '   </nav > ',
       "</div>",
     ].join("")
   })(this),
@@ -82,9 +95,9 @@ Vue.component("pan-navbar", {
   },
   mounted() {
     if (top.location != location) {
-      document.querySelectorAll('a').forEach((it)=> {
-        var that=this;
-        it.onclick = function(e){
+      document.querySelectorAll('a').forEach((it) => {
+        var that = this;
+        it.onclick = function (e) {
           e.preventDefault();
           that.iframePostMessage("href",
             it.href,
@@ -96,25 +109,43 @@ Vue.component("pan-navbar", {
     }
   },
   methods: {
-    iframePostMessage(type,url,data,succ){
-      var cfn="paniframe_"+new Date().getTime();
-      var _call=function(e){
-          var data=JSON.parse(e.data)
-          // console.log(data)
-          if(data.type==="PanIframe"&&data.paniframeid===cfn){
-              succ(data.result,data)
-              window.removeEventListener("message", _call);
-          }
+    isChooseMenu(title) {
+      return this.title === title
+    },
+    fillTitle(title) {
+      var maxTitleLength = 7
+      var enCnt=this.countEnglishLetters(title)
+      for (i = title.length; i < maxTitleLength; i++) {
+        title += '&emsp;'
+      }
+      for (i = 0; i < enCnt; i++) {
+        title += '&nbsp;'
+      }
+      return title
+    },
+    countEnglishLetters(str) {
+      const englishLetters = str.match(/[a-zA-Z0-9]/g);
+      return englishLetters ? englishLetters.length : 0;
+    },
+    iframePostMessage(type, url, data, succ) {
+      var cfn = "paniframe_" + new Date().getTime();
+      var _call = function (e) {
+        var data = JSON.parse(e.data)
+        // console.log(data)
+        if (data.type === "PanIframe" && data.paniframeid === cfn) {
+          succ(data.result, data)
+          window.removeEventListener("message", _call);
+        }
       }
       window.addEventListener("message", _call, false);
       window.parent.postMessage(JSON.stringify({
-          type:"PanIframe",
-          paniframeid:cfn,
-          url:url,
-          method:type,
-          data:data
+        type: "PanIframe",
+        paniframeid: cfn,
+        url: url,
+        method: type,
+        data: data
       }), '*');
-  },
+    },
     goBack() {
       window.location.href = "index.html"
     },

@@ -3,51 +3,55 @@
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Finance Parser</title>
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1.0, shrink-to-fit=no,user-scalable=0">
-  <link rel="icon" href="./asserts/img/favicon.png" type="image/x-icon" />
-  <meta name="Keywords" content="vip解析,个人使用请勿用于商用传播">
-  <meta name="Description" content="vip解析,个人使用请勿用于商用传播">
-  <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
-  <!-- 引入样式 -->
-  <link href="./asserts/bootstrap-5.1.3/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-  <!-- 引入组件库 -->
-  <script src="./asserts/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-  <script src="./asserts/bootstrap-5.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  <!-- 基础样式 -->
-  <link href="./asserts/base.css" rel="stylesheet">
-  <script src="./asserts/base.js"></script>
-  <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
-
-  <script src="./asserts/panbase.js"></script>
+  <script src="./asserts/head.js"></script>
 </head>
 
 <body style="overflow: hidden;">
   <div id="root" style="height:100%;">
     <pan-navbar title="金融转换"></pan-navbar>
 
-    <div  class="mainContainer">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <div class="input-group" id="rawdiv">
-            <span class="input-group-text">金额（数字）</span>
-            <input v-model="raw" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <button class="btn btn-outline-secondary" type="button" @click="convert()"><i class="fa fa-exchange-alt"></i></button>
-            <button class="btn btn-outline-secondary" type="button" @click="copy('#rawdiv input')"><i class="fa fa-copy"></i></button>
+    <div  class="mainContainer p-3">
+
+      <div class="field is-horizontal" id="rawdiv">
+        <div class="field-label">金额（数字）</div>
+        <div class="field-body">
+          <div class="field is-expanded">
+            <div class="field has-addons">
+              <p class="control is-expanded">
+                <input class="input" type="number" placeholder="" v-model="raw">
+              </p>
+              <p class="control">
+                <button class="button is-success is-medium is-outlined" @click="convert()"><i class="fa fa-exchange-alt"></i></button>
+              </p>
+              <p class="control">
+                <button class="button is-success is-medium is-outlined" @click="copy('#rawdiv input')"><i
+                    class="fa fa-copy"></i></button>
+              </p>
+            </div>
           </div>
-        </li>
-        
-        <li class="list-group-item">
-          <div class="input-group" id="btdiv">
-            <span class="input-group-text">金额（标准）</span>
-            <input v-model="newVal" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <button class="btn btn-outline-secondary" type="button" @click="copy('#btdiv input')"><i class="fa fa-copy"></i></button>
+        </div>
+      </div>
+
+      <div class="field is-horizontal" id="btdiv">
+        <div class="field-label">金额（标准）</div>
+        <div class="field-body">
+          <div class="field is-expanded">
+            <div class="field has-addons">
+              <p class="control is-expanded">
+                <input class="input" type="text" placeholder="" v-model="newVal">
+              </p>
+              <p class="control">
+                <button class="button is-success is-medium is-outlined" @click="copy('#btdiv input')"><i
+                    class="fa fa-copy"></i></button>
+              </p>
+            </div>
           </div>
-        </li>
-        
-      </ul>
+        </div>
+      </div>
+
+
+   
     </div>
     </div>
 
