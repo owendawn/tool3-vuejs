@@ -55,7 +55,7 @@
                 </div>
             </div>
             <hr>
-            <div class="field is-horizontal" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field is-horizontal" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field is-horizontal" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
@@ -100,14 +100,14 @@
                     </div>
                 </div>
             </div>
-            <div class="field is-horizontal" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
                         <div class="field has-addons">
                             <p class="control">
                                 <button class="button is-outlined" type="button" @click="changeToDu"><i
-                                    class="fa fa-exchange-alt"></i></button>
+                                        class="fa fa-exchange-alt"></i></button>
                             </p>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                             </p>
                             <p class="control">
                                 <button class="button is-success is-medium is-outlined" @click="copy('#xsdiv input')">
-                                    <i  class="fa fa-copy"></i>
+                                    <i class="fa fa-copy"></i>
                                 </button>
                             </p>
                         </div>
@@ -148,7 +148,7 @@
                             </p>
                             <p class="control">
                                 <button class="button is-success is-medium is-outlined" @click="copy('#dfmdiv input')">
-                                    <i  class="fa fa-copy"></i>
+                                    <i class="fa fa-copy"></i>
                                 </button>
                             </p>
                         </div>
@@ -156,7 +156,7 @@
                 </div>
             </div>
             <hr>
-            <div class="field" >
+            <div class="field is-horizontal">
                 <div class="field-label"><span class="tag is-success">坐标系互转</span></div>
                 <div class="field-body">
                     <div class="field is-expanded">
@@ -171,7 +171,7 @@
                     </div>
                 </div>
             </div>
-            <div class="field" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
@@ -186,19 +186,19 @@
                     </div>
                 </div>
             </div>
-            <div class="field" >
+            <div class="field is-horizontal">
                 <div class="field-label"></div>
                 <div class="field-body">
                     <div class="field is-expanded">
                         <div class="field has-addons">
                             <p class="control">
-                                <button class="button is-outlined" @click="fromGcj02">从火星坐标系转换</button>
+                                <button class="button is-success is-dark is-outlined" @click="fromGcj02">从火星坐标系转换</button>
                             </p>
                             <p class="control">
-                                <button class="button is-outlined" @click="fromBd09">从百度坐标系转换</button>
+                                <button class="button is-success is-dark is-outlined" @click="fromBd09">从百度坐标系转换</button>
                             </p>
                             <p class="control">
-                                <button class="button is-outlined" @click="fromWgs84">从大地坐标系转换</button>
+                                <button class="button is-success is-dark is-outlined" @click="fromWgs84">从大地坐标系转换</button>
                             </p>
                         </div>
                     </div>
@@ -217,8 +217,9 @@
                                 <input class="input" type="text" placeholder="" v-model="gcj02Value">
                             </p>
                             <p class="control">
-                                <button class="button is-success is-medium is-outlined" @click="copy('#gcj02div input')">
-                                    <i  class="fa fa-copy"></i>
+                                <button class="button is-success is-medium is-outlined"
+                                    @click="copy('#gcj02div input')">
+                                    <i class="fa fa-copy"></i>
                                 </button>
                             </p>
                         </div>
@@ -239,7 +240,7 @@
                             </p>
                             <p class="control">
                                 <button class="button is-success is-medium is-outlined" @click="copy('#bd09div input')">
-                                    <i  class="fa fa-copy"></i>
+                                    <i class="fa fa-copy"></i>
                                 </button>
                             </p>
                         </div>
@@ -259,8 +260,9 @@
                                 <input class="input" type="text" placeholder="" v-model="wgs84Value">
                             </p>
                             <p class="control">
-                                <button class="button is-success is-medium is-outlined" @click="copy('#wgs84div input')">
-                                    <i  class="fa fa-copy"></i>
+                                <button class="button is-success is-medium is-outlined"
+                                    @click="copy('#wgs84div input')">
+                                    <i class="fa fa-copy"></i>
                                 </button>
                             </p>
                         </div>
