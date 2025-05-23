@@ -94,7 +94,7 @@
                 }
                 let unicodeStr = '';
                 for (let i = 0, iLength = chineseStr.length; i < iLength; i++) {
-                    unicodeStr += '\\u' + chineseStr.charCodeAt(i).toString(16);
+                    unicodeStr += '\\\\u' + chineseStr.charCodeAt(i).toString(16);
                 }
                 this.newVal = unicodeStr;
             },
