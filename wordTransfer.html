@@ -42,6 +42,11 @@
                 <p class="control"><button class="button is-success is-small is-dark" @click="chineseToUnicode">中文转Unicode</button></p>
                 <p class="control"><button class="button is-success is-small is-dark" @click="unicodeToChinese">Unicode转中文</button></p>
             </div>
+            <hr style="margin-top: 24px;">
+            <div class="field has-addons has-addons-centered">
+                <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Lowercase">MD5小写</button></p>
+                <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Uppercase">MD5大写</button></p>
+            </div>
 
 
         </div>
@@ -52,8 +57,8 @@
 
 </div>
 
-<script src="./asserts/navbar.js"></script>
-<script src="./asserts/PanUtil.js"></script>
+
+<script src="./asserts/md5.js"></script>
 <script src="./asserts/encrypt.util.js"></script>
 <script>
     new Vue({
@@ -104,6 +109,12 @@
                     chineseStr += String.fromCharCode(parseInt(unicodeStr[i], 16));
                 }
                 this.newVal = chineseStr;
+            },
+            toMd5Lowercase(){
+                this.newVal=hex_md5(this.raw).toLowerCase()
+            },
+            toMd5Uppercase(){
+                this.newVal=hex_md5(this.raw).toUpperCase()
             }
         }
     })
