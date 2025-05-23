@@ -13,12 +13,13 @@ document.writeln(`
     <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
 
     <!-- compnents -->
+    <script src="./asserts/panbase.js"></script>
     <script src="./asserts/navbar.js"></script>
 
 
     <!-- custom -->
     <link href="./asserts/base.css" rel="stylesheet">
     <script src="./asserts/PanUtil.js"></script>
-    <script src="./asserts/panbase.js"></script>
+    
 `)
 
