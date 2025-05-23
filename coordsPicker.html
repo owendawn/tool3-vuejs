@@ -6,112 +6,125 @@
     <title>Coords Picker</title>
     <script src="./asserts/head.js"></script>
 
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=srCloanWyKu4s8mGKrIFv0od"></script>
+    <script type="text/javascript"
+        src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=srCloanWyKu4s8mGKrIFv0od"></script>
 </head>
 
 <body style="overflow: hidden;">
-<div id="root" style="height:100%;">
-    <pan-navbar title="坐标拾取"></pan-navbar>
+    <div id="root" style="height:100%;">
+        <pan-navbar title="坐标拾取"></pan-navbar>
 
 
-    <div class="mainContainer">
-        <div class="m-3">
+        <div class="mainContainer">
+            <div class="m-3">
 
-            <div class="field is-horizontal" id="rawdiv">
-                <div class="field-label"><span class="tag is-success">火星坐标系</span>——GCJ-02</div>
-                <p class="help is-warning">
-                    中国国内使用的被强制加密后的坐标体系，高德坐标就属于该种坐标体系
-                </p>
-                <div class="field-body">
-                    <div class="field is-expanded">
-                        <div class="field has-addons">
-                            <p class="control">
-                                <span class="button is-medium"><i class="fas fa-map-marked-alt"></i></span>
-                            </p>
-                            <p class="control is-expanded">
-                                <input class="input" type="text" placeholder="" id="gcjStr"  v-model="gcjStr">
-                            </p>
-                            <p class="control">
-                                <button class="button is-success is-medium is-outlined" @click="copy('#gcjStr')">
-                                    <i class="fa fa-copy"></i>
-                                </button>
-                            </p>
+                <div class="field is-horizontal" id="rawdiv">
+                    <div class="field-label"><span class="tag is-success">火星坐标系</span>——GCJ-02</div>
+                    <p class="help is-warning">
+                        中国国内使用的被强制加密后的坐标体系，高德坐标就属于该种坐标体系
+                    </p>
+                    <div class="field-body">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <button class="button is-primary is-medium is-outlined"
+                                        @click="locate('GCJ-02',gcjStr)">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </p>
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="" id="gcjStr" v-model="gcjStr">
+                                </p>
+                                <p class="control">
+                                    <button class="button is-success is-medium is-outlined" @click="copy('#gcjStr')">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="field is-horizontal" id="rawdiv">
-                <div class="field-label"><span class="tag is-success">百度坐标系</span>——BD-09</div>
-                <p class="help is-warning">
-                    百度地图所使用的坐标体系，是在火星坐标系的基础上又进行了一次加密处理
-                </p>
-                <div class="field-body">
-                    <div class="field is-expanded">
-                        <div class="field has-addons">
-                            <p class="control">
-                                <span class="button is-medium"><i class="fas fa-map-marked-alt"></i></span>
-                            </p>
-                            <p class="control is-expanded">
-                                <input class="input" type="text" placeholder="" id="bdStr"  v-model="bdStr">
-                            </p>
-                            <p class="control">
-                                <button class="button is-success is-medium is-outlined" @click="copy('#bdStr')">
-                                    <i class="fa fa-copy"></i>
-                                </button>
-                            </p>
+                <div class="field is-horizontal" id="rawdiv">
+                    <div class="field-label"><span class="tag is-success">百度坐标系</span>——BD-09</div>
+                    <p class="help is-warning">
+                        百度地图所使用的坐标体系，是在火星坐标系的基础上又进行了一次加密处理
+                    </p>
+                    <div class="field-body">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <button class="button is-primary is-medium is-outlined"
+                                        @click="locate('BD-09',bdStr)">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </p>
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="" id="bdStr" v-model="bdStr">
+                                </p>
+                                <p class="control">
+                                    <button class="button is-success is-medium is-outlined" @click="copy('#bdStr')">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="field is-horizontal" id="rawdiv">
-                <div class="field-label"><span class="tag is-success">地球坐标系</span>——WGS84</div>
-                <p class="help is-warning">
-                    常见于 GPS 设备，Google 地图等国际标准的坐标体系
-                </p>
-                <div class="field-body">
-                    <div class="field is-expanded">
-                        <div class="field has-addons">
-                            <p class="control">
-                                <span class="button is-medium"><i class="fas fa-map-marked-alt"></i></span>
-                            </p>
-                            <p class="control is-expanded">
-                                <input class="input" type="text" placeholder="" id="wgsStr"  v-model="wgsStr">
-                            </p>
-                            <p class="control">
-                                <button class="button is-success is-medium is-outlined" @click="copy('#wgsStr')">
-                                    <i class="fa fa-copy"></i>
-                                </button>
-                            </p>
+                <div class="field is-horizontal" id="rawdiv">
+                    <div class="field-label"><span class="tag is-success">地球坐标系</span>——WGS84</div>
+                    <p class="help is-warning">
+                        常见于 GPS 设备，Google 地图等国际标准的坐标体系
+                    </p>
+                    <div class="field-body">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <button class="button is-primary is-medium is-outlined"
+                                        @click="locate('WGS84',wgsStr)">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </p>
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="" id="wgsStr" v-model="wgsStr">
+                                </p>
+                                <p class="control">
+                                    <button class="button is-success is-medium is-outlined" @click="copy('#wgsStr')">
+                                        <i class="fa fa-copy"></i>
+                                    </button>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
-
-
-            
-        </div>
-        <button class="button  is-success  is-dark" :class='{"is-outlined":mapTypeChoose === 2}'
-        type="button" @click="mapTypeChoose = 1">
-            <i class="fa fa-cloud-download-alt"> 高德地图</i>
-        </button>
-        <button  class="button  is-success is-dark" :class='{"is-outlined":mapTypeChoose === 1}'
-        type="button" @click="mapTypeChoose = 2">
-            <i class="fa fa-cloud-download-alt"> 百度地图</i>
-        </button>
-        <button  class="button is-outlined is-info" type="button" @click="jumpTo">
-            <i class="fas fa-map-marker-alt"></i>
-        </button>
-        <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
-            <div id="container" style="height:80%;" v-show="mapTypeChoose === 1"></div>
-            <div id="baiducontainer" style="height:80%;"  v-show="mapTypeChoose === 2"></div>
+            <button class="button  is-success  is-dark" :class='{"is-outlined":mapTypeChoose === 2}' type="button"
+                @click="mapTypeChoose = 1">
+                <i class="fa fa-cloud-download-alt"> 高德地图</i>
+            </button>
+            <button class="button  is-success is-dark" :class='{"is-outlined":mapTypeChoose === 1}' type="button"
+                @click="mapTypeChoose = 2">
+                <i class="fa fa-cloud-download-alt"> 百度地图</i>
+            </button>
+            <button class="button is-outlined is-info" type="button" @click="showCoords" style="height: 2rem;">
+                <i class="fas fa-hand-point-down" > 坐标拾取</i>
+            </button>
+<!--             <button class="button is-outlined is-info" type="button" @click="jumpTo">
+                定位
+            </button> -->
+            <div style="height: calc(100% - 2.5rem);margin-top:0.2rem;">
+                <div id="container" style="height:80%;" v-show="mapTypeChoose === 1"></div>
+                <div id="baiducontainer" style="height:80%;" v-show="mapTypeChoose === 2"></div>
+            </div>
         </div>
     </div>
-</div>
 
 
-</div>
+    </div>
 
 <script src="./asserts/coordsConvert.js"></script>
 <!--<script src="./asserts/alert.js"></script>-->
@@ -125,138 +138,100 @@
 </script>
 
 
-<script>
-    new Vue({
-        el: '#root',
-        data() {
-            return {
-                mapGaoDe: null,
-                mapBaidu: null,
+    <script>
+        new Vue({
+            el: '#root',
+            data() {
+                return {
+                    mapGaoDe: null,
+                    mapBaidu: null,
 
-                homeLng:null,
-                homeLat:null,
+                    homeLng: null,
+                    homeLat: null,
 
-                gcjLat: null,
-                gcjLng: null,
-                gcjStr: null,
-                bdLat: null,
-                bdLng: null,
-                bdStr: null,
-                wgsLat: null,
-                wgsLng: null,
-                wgsStr: null,
-                mapTypeChoose: 1
-            }
-        },
-        mounted() {
-            this.initBaiduMap()
-            window.init2 = this.initGaoDeMap
-            this.initCoords()
-        },
-        watch:{
-            mapTypeChoose(it,before){
-                console.log(it,before)
-            }
-        },
-        methods: {
-            getBaiduStatusDesc(state){
-                switch (state) {
-                    case 0 :
-                        return 'BMAP_STATUS_SUCCESS	检索成功。对应数值“0”'
-                    case 1:
-                        return 'BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”'
-                    case 2:
-                        return 'BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”'
-                    case 3:
-                        return 'BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”'
-                    case 4:
-                        return 'BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”'
-                    case 5:
-                        return 'BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”'
-                    case 6:
-                        return 'BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”'
-                    case 7:
-                        return 'BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”'
-                    case 8:
-                        return 'BMAP_STATUS_TIMEOUT	超时。对应数值“8”'
-                    default:
-                        return '未知状态：'+state
+                    gcjLat: null,
+                    gcjLng: null,
+                    gcjStr: null,
+                    bdLat: null,
+                    bdLng: null,
+                    bdStr: null,
+                    wgsLat: null,
+                    wgsLng: null,
+                    wgsStr: null,
+                    mapTypeChoose: 1
                 }
             },
-            setPoint(type,lng,lat){
-                if(type==='wgs84'){
-                    this.homeLng=lng
-                    this.homeLat=lat
-                }else if(type === 'bd09'){
-                    var gcjarr=bd09togcj02(lng,lat)
-                    var wgsArr = gcj02towgs84(gcjarr[0], gcjarr[1])
-                    this.homeLng = wgsArr[0]
-                    this.homeLat = wgsArr[1]
-                }else if(type === 'gcj02'){
-                    var wgsArr = gcj02towgs84(lng,lat)
-                    this.homeLng = wgsArr[0]
-                    this.homeLat = wgsArr[1]
+            mounted() {
+                this.initBaiduMap()
+                window.init2 = this.initGaoDeMap
+                this.initCoords()
+            },
+            watch: {
+                mapTypeChoose(it, before) {
+                    console.log(it, before)
                 }
             },
-            jumpTo(){
-                var that=this
-                if(this.wgsLng&&this.wgsLat) {
-                    if (that.mapBaidu) {
-                        var arr = wgs84togcj02(this.wgsLng,this.wgsLat)
-                        var arr2 = gcj02tobd09(arr[0], arr[1])
-                        var pp = new BMapGL.Point(arr2[0], arr2[1]);
-                        var mk = new BMapGL.Marker(pp);
-                        that.mapBaidu.clearOverlays()
-                        that.mapBaidu.addOverlay(mk);
-                        that.mapBaidu.setCenter(pp);
+            methods: {
+                locate(type, lnglat) {
+                    var arr = lnglat.split(',')
+                    console.log(type, arr)
+                    if (type === 'GCJ-02') {
+                        arr = gcj02towgs84(Number(arr[0]), Number(arr[1]))
+                    } else if (type === 'BD-09') {
+                        var gcjarr = bd09togcj02(arr[0], arr[1])
+                        arr = gcj02towgs84(gcjarr[0], gcjarr[1])
+                    } else if (type === 'WGS84') {
+                        //不处理
                     }
-
-                    if (that.mapGaoDe) {
-                        var arr = wgs84togcj02(this.wgsLng,this.wgsLat)
-                        that.mapGaoDe.setCenter([arr[0], arr[1]]);
+                    this.wgsLng = Number(arr[0])
+                    this.wgsLat = Number(arr[1])
+                    this.jumpTo()
+                },
+                getBaiduStatusDesc(state) {
+                    switch (state) {
+                        case 0:
+                            return 'BMAP_STATUS_SUCCESS	检索成功。对应数值“0”'
+                        case 1:
+                            return 'BMAP_STATUS_CITY_LIST	城市列表。对应数值“1”'
+                        case 2:
+                            return 'BMAP_STATUS_UNKNOWN_LOCATION	位置结果未知。对应数值“2”'
+                        case 3:
+                            return 'BMAP_STATUS_UNKNOWN_ROUTE	导航结果未知。对应数值“3”'
+                        case 4:
+                            return 'BMAP_STATUS_INVALID_KEY	非法密钥。对应数值“4”'
+                        case 5:
+                            return 'BMAP_STATUS_INVALID_REQUEST	非法请求。对应数值“5”'
+                        case 6:
+                            return 'BMAP_STATUS_PERMISSION_DENIED	没有权限。对应数值“6”'
+                        case 7:
+                            return 'BMAP_STATUS_SERVICE_UNAVAILABLE	服务不可用。对应数值“7”'
+                        case 8:
+                            return 'BMAP_STATUS_TIMEOUT	超时。对应数值“8”'
+                        default:
+                            return '未知状态：' + state
                     }
-                }
-            },
-            initCoords(){
-                var that=this
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) => {
-                        console.log("WGS84-经度: " + position.coords.longitude+",纬度: " + position.coords.latitude)
-                        this.setPoint(position.coords.longitude, position.coords.latitude);
-                    }, function (error) {
-                        switch (error.code) {
-                            case 1:
-                                console.warn("WGS84-位置服务被拒绝。");
-                                break;
-                            case 2:
-                                console.warn("WGS84-暂时获取不到位置信息。");
-                                break;
-                            case 3:
-                                console.warn("WGS84-获取位置信息超时。");
-                                break;
-                            default:
-                                console.warn("WGS84-未知错误。");
-                                break;
-                        }
-                        that.getByNetwork()
-                    }, {timeout: 10000, enableHighAccuracy: true});
-                } else {
-                    console.log("该设备不支持地理位置服务");
-                   that.getByNetwork()
-                }
-            },
-            getByNetwork(){
-                var that=this
-                PanUtil.ajax.get("https://api.ipify.org/?format=json", {},res=>{
-                    console.log(res)
-                    PanUtil.ajax.get("http://ip-api.com/json/"+res.ip+"?fields=61439&lang=zh-CN", {},re=>{
-                        console.log(re)
-                        this.homeLng=re.lon
-                        this.homeLat=re.lat
-
-                        if(that.mapBaidu) {
-                            var arr= wgs84togcj02(re.lon, re.lat)
-                            var arr2=gcj02tobd09(arr[0],arr[1])
+                },
+                setPoint(type, lng, lat) {
+                    if (type === 'wgs84') {
+                        this.homeLng = lng
+                        this.homeLat = lat
+                    } else if (type === 'bd09') {
+                        var gcjarr = bd09togcj02(lng, lat)
+                        var wgsArr = gcj02towgs84(gcjarr[0], gcjarr[1])
+                        this.homeLng = wgsArr[0]
+                        this.homeLat = wgsArr[1]
+                    } else if (type === 'gcj02') {
+                        var wgsArr = gcj02towgs84(lng, lat)
+                        this.homeLng = wgsArr[0]
+                        this.homeLat = wgsArr[1]
+                    }
+                },
+                jumpTo() {
+                    var that = this
+                    if (this.wgsLng && this.wgsLat) {
+                        if (that.mapBaidu) {
+                            var arr = wgs84togcj02(this.wgsLng, this.wgsLat)
+                            var arr2 = gcj02tobd09(arr[0], arr[1])
                             var pp = new BMapGL.Point(arr2[0], arr2[1]);
                             var mk = new BMapGL.Marker(pp);
                             that.mapBaidu.clearOverlays()
@@ -264,149 +239,207 @@
                             that.mapBaidu.setCenter(pp);
                         }
 
-                        if(that.mapGaoDe){
-                           var arr= wgs84togcj02(re.lon, re.lat)
+                        if (that.mapGaoDe) {
+                            var arr = wgs84togcj02(this.wgsLng, this.wgsLat)
                             that.mapGaoDe.setCenter([arr[0], arr[1]]);
                         }
-                    })
-                })
-            },
-            initBaiduMap(){
-                let that=this;
-                this.mapBaidu = new BMapGL.Map("baiducontainer");
-                var point = new BMapGL.Point(120.20191640528095,30.211098890763584);
-                this.mapBaidu.centerAndZoom(point,17);
-                this.mapBaidu.enableScrollWheelZoom(true)
-
-                var geolocation = new BMapGL.Geolocation();
-                // 开启SDK辅助定位
-                geolocation.enableSDKLocation();
-                geolocation.getCurrentPosition(function(r){
-                    if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                        var mk = new BMapGL.Marker(r.point);
-                        that.mapBaidu.clearOverlays()
-                        that.mapBaidu.addOverlay(mk);
-                        that.mapBaidu.setCenter(new BMapGL.Point(r.point.lng, r.point.lat));
-                        console.log('百度-位置：' + r.point.lng + ',' + r.point.lat,r);
-
-                        that.setPoint('bd09',r.point.lng, r.point.lat)
                     }
-                    else {
-                        console.warn('百度-位置:' + that.getBaiduStatusDesc(this.getStatus()));
-                        var pp = new BMapGL.Point(120.20191640528095,30.211098890763584);
-                        if(that.homeLng&&that.homeLat){
-                            pp = new BMapGL.Point(that.homeLng,that.homeLat);
-                        }
-                        var mk = new BMapGL.Marker(pp);
-                        that.mapBaidu.clearOverlays()
-                        that.mapBaidu.addOverlay(mk);
-                        that.mapBaidu.setCenter(new BMapGL.Point(pp.lng, pp.lat));
-                    }        
-                });
-                this.mapBaidu.addEventListener('click', (e)=> {
-                    console.log('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
-                    var point = new BMapGL.Point(e.latlng.lng, e.latlng.lat);   
-                    var marker = new BMapGL.Marker(point);        // 创建标注   
-                    this.mapBaidu.clearOverlays()
-                    this.mapBaidu.addOverlay(marker);
+                },
+                initCoords() {
+                    var that = this
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((position) => {
+                            console.log("WGS84-经度: " + position.coords.longitude + ",纬度: " + position.coords.latitude)
+                            this.setPoint(position.coords.longitude, position.coords.latitude);
+                        }, function (error) {
+                            switch (error.code) {
+                                case 1:
+                                    console.warn("WGS84-位置服务被拒绝。");
+                                    break;
+                                case 2:
+                                    console.warn("WGS84-暂时获取不到位置信息。");
+                                    break;
+                                case 3:
+                                    console.warn("WGS84-获取位置信息超时。");
+                                    break;
+                                default:
+                                    console.warn("WGS84-未知错误。");
+                                    break;
+                            }
+                            that.getByNetwork()
+                        }, { timeout: 10000, enableHighAccuracy: true });
+                    } else {
+                        console.log("该设备不支持地理位置服务");
+                        that.getByNetwork()
+                    }
+                },
+                getByNetwork() {
+                    var that = this
+                    PanUtil.ajax.get("https://api.ipify.org/?format=json", {}, res => {
+                        console.log(res)
+                        PanUtil.ajax.get("http://ip-api.com/json/" + res.ip + "?fields=61439&lang=zh-CN", {}, re => {
+                            console.log(re)
+                            this.homeLng = re.lon
+                            this.homeLat = re.lat
 
-                    this.bdLng = e.latlng.lng
-                    this.bdLat = e.latlng.lat
-                    this.bdStr = this.bdLng + ',' + this.bdLat
-                    var gcjarr=bd09togcj02(this.bdLng,this.bdLat)
-                    this.gcjLng = gcjarr[0]
-                    this.gcjLat = gcjarr[1]
-                    this.gcjStr = this.gcjLng + ',' + this.gcjLat
+                            if (that.mapBaidu) {
+                                var arr = wgs84togcj02(re.lon, re.lat)
+                                var arr2 = gcj02tobd09(arr[0], arr[1])
+                                var pp = new BMapGL.Point(arr2[0], arr2[1]);
+                                var mk = new BMapGL.Marker(pp);
+                                that.mapBaidu.clearOverlays()
+                                that.mapBaidu.addOverlay(mk);
+                                that.mapBaidu.setCenter(pp);
+                            }
+
+                            if (that.mapGaoDe) {
+                                var arr = wgs84togcj02(re.lon, re.lat)
+                                that.mapGaoDe.setCenter([arr[0], arr[1]]);
+                            }
+                        })
+                    })
+                },
+                initBaiduMap() {
+                    let that = this;
+                    this.mapBaidu = new BMapGL.Map("baiducontainer");
+                    var point = new BMapGL.Point(120.20191640528095, 30.211098890763584);
+                    this.mapBaidu.centerAndZoom(point, 17);
+                    this.mapBaidu.enableScrollWheelZoom(true)
+
+                    var geolocation = new BMapGL.Geolocation();
+                    // 开启SDK辅助定位
+                    geolocation.enableSDKLocation();
+                    geolocation.getCurrentPosition(function (r) {
+                        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                            var mk = new BMapGL.Marker(r.point);
+                            that.mapBaidu.clearOverlays()
+                            that.mapBaidu.addOverlay(mk);
+                            that.mapBaidu.setCenter(new BMapGL.Point(r.point.lng, r.point.lat));
+                            console.log('百度-位置：' + r.point.lng + ',' + r.point.lat, r);
+
+                            that.setPoint('bd09', r.point.lng, r.point.lat)
+                        }
+                        else {
+                            console.warn('百度-位置:' + that.getBaiduStatusDesc(this.getStatus()));
+                            var pp = new BMapGL.Point(120.20191640528095, 30.211098890763584);
+                            if (that.homeLng && that.homeLat) {
+                                pp = new BMapGL.Point(that.homeLng, that.homeLat);
+                            }
+                            var mk = new BMapGL.Marker(pp);
+                            that.mapBaidu.clearOverlays()
+                            that.mapBaidu.addOverlay(mk);
+                            that.mapBaidu.setCenter(new BMapGL.Point(pp.lng, pp.lat));
+                        }
+                    });
+                    this.mapBaidu.addEventListener('click', (e) => {
+                        console.log('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
+                        var point = new BMapGL.Point(e.latlng.lng, e.latlng.lat);
+                        var marker = new BMapGL.Marker(point);        // 创建标注   
+                        this.mapBaidu.clearOverlays()
+                        this.mapBaidu.addOverlay(marker);
+
+                        this.bdLng = e.latlng.lng
+                        this.bdLat = e.latlng.lat
+                        this.bdStr = this.bdLng + ',' + this.bdLat
+                        var gcjarr = bd09togcj02(this.bdLng, this.bdLat)
+                        this.gcjLng = gcjarr[0]
+                        this.gcjLat = gcjarr[1]
+                        this.gcjStr = this.gcjLng + ',' + this.gcjLat
+                        var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
+                        this.wgsLng = wgsArr[0]
+                        this.wgsLat = wgsArr[1]
+                        this.wgsStr = this.wgsLng + ',' + this.wgsLat
+                    });
+                },
+                initGaoDeMap() {
+                    var that = this
+                    this.mapGaoDe = new AMap.Map('container', {
+                        zoom: 16
+                    })
+                    AMapUI.loadUI(['misc/PositionPicker'], PositionPicker => {
+
+                        var positionPicker = new PositionPicker({
+                            mode: 'dragMap',//拖拽Marker模式
+                            map: this.mapGaoDe,
+                            iconStyle: {//自定义外观
+                                url: '//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
+                                size: [48, 48],  //要显示的点大小，将缩放图片
+                                ancher: [24, 40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
+                            }
+                        });
+                        positionPicker.on('success', function (positionResult) {
+                            console.log(positionResult)
+                        });
+                        positionPicker.on('fail', function (positionResult) {
+                            console.error(positionResult)
+                        });
+                        positionPicker.start();
+                        this.mapGaoDe.on('moveend', this.picker);
+                        this.mapGaoDe.on('zoomend', this.picker);
+                        this.mapGaoDe.on('complete', this.picker);
+                    });
+
+                    AMap.plugin('AMap.Geolocation', function () {
+                        var geolocation = new AMap.Geolocation({
+                            enableHighAccuracy: true, // 是否使用高精度定位，默认：true
+                            timeout: 30000, // 设置定位超时时间，默认：无穷大
+                            offset: [10, 20],  // 定位按钮的停靠位置的偏移量
+                            zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                            position: 'RB' //  定位按钮的排放位置,  RB表示右下
+                        })
+
+                        geolocation.getCurrentPosition(function (status, result) {
+                            if (status === 'complete') {
+                                console.log('高德-位置：经度=', result.position.lng + ',纬度=' + result.position.lat, result)
+                                that.mapGaoDe.setCenter([result.position.lng, result.position.lat]);
+                                that.setPoint('gcj02', result.position.lng, result.position.lat)
+                            } else {
+                                console.warn('高德-位置：', result)
+                            }
+                        });
+                    });
+
+
+
+                },
+                picker() {
+                    var zoom = this.mapGaoDe.getZoom(); //获取当前地图级别
+                    var center = this.mapGaoDe.getCenter(); //获取当前地图中心位置
+                    // console.log(center,arguments)
+                    this.gcjLng = center.lng
+                    this.gcjLat = center.lat
+                    
+                    var bdarr = gcj02tobd09(this.gcjLng, this.gcjLat)
+                    this.bdLng = bdarr[0]
+                    this.bdLat = bdarr[1]
+                    
                     var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
                     this.wgsLng = wgsArr[0]
                     this.wgsLat = wgsArr[1]
+                    
+                },
+                showCoords(){
+                    this.gcjStr = this.gcjLng + ',' + this.gcjLat
+                    this.bdStr = this.bdLng + ',' + this.bdLat
                     this.wgsStr = this.wgsLng + ',' + this.wgsLat
-                });
-            },
-            initGaoDeMap() {
-                var that=this
-                this.mapGaoDe = new AMap.Map('container', {
-                    zoom: 16
-                })
-                AMapUI.loadUI(['misc/PositionPicker'], PositionPicker => {
-
-                    var positionPicker = new PositionPicker({
-                        mode: 'dragMap',//拖拽Marker模式
-                        map: this.mapGaoDe,
-                        iconStyle: {//自定义外观
-                            url: '//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
-                            size: [48, 48],  //要显示的点大小，将缩放图片
-                            ancher: [24, 40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
-                        }
-                    });
-                    positionPicker.on('success', function (positionResult) {
-                        console.log(positionResult)
-                    });
-                    positionPicker.on('fail', function (positionResult) {
-                        console.error(positionResult)
-                    });
-                    positionPicker.start();
-                    this.mapGaoDe.on('moveend', this.picker);
-                    this.mapGaoDe.on('zoomend', this.picker);
-                    this.mapGaoDe.on('complete', this.picker);
-                });
-
-                AMap.plugin('AMap.Geolocation', function () {
-                    var geolocation = new AMap.Geolocation({
-                        enableHighAccuracy: true, // 是否使用高精度定位，默认：true
-                        timeout: 30000, // 设置定位超时时间，默认：无穷大
-                        offset: [10, 20],  // 定位按钮的停靠位置的偏移量
-                        zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                        position: 'RB' //  定位按钮的排放位置,  RB表示右下
-                    })
-
-                    geolocation.getCurrentPosition(function (status, result) {
-                        if (status === 'complete') {
-                            console.log('高德-位置：经度=',result.position.lng+',纬度='+ result.position.lat,result)
-                            that.mapGaoDe.setCenter([result.position.lng, result.position.lat]);
-                            that.setPoint('gcj02',result.position.lng, result.position.lat)
-                        } else {
-                            console.warn('高德-位置：',result)
-                        }
-                    });
-                });
-
-
-
-            },
-            picker() {
-                var zoom = this.mapGaoDe.getZoom(); //获取当前地图级别
-                var center = this.mapGaoDe.getCenter(); //获取当前地图中心位置
-                // console.log(center,arguments)
-                this.gcjLng = center.lng
-                this.gcjLat = center.lat
-                this.gcjStr = this.gcjLng + ',' + this.gcjLat
-                var bdarr = gcj02tobd09(this.gcjLng, this.gcjLat)
-                this.bdLng = bdarr[0]
-                this.bdLat = bdarr[1]
-                this.bdStr = this.bdLng + ',' + this.bdLat
-                var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
-                this.wgsLng = wgsArr[0]
-                this.wgsLat = wgsArr[1]
-                this.wgsStr = this.wgsLng + ',' + this.wgsLat
-            },
-            copy(selector) {
-                let transfer = document.querySelector(selector);
-                transfer.focus();
-                transfer.select();
-                if (document.execCommand('copy')) {
-                    document.execCommand('copy');
-                }
-                transfer.blur();
-                PanToast.alert('复制成功!', 'alert-info');
-            },
-        }
-    })
-</script>
-<!--异步加载 高德地图JSAPI ，注意 callback 参数-->
-<script src="//webapi.amap.com/maps?v=2.0&key=b3875afaf8329a59548f53b600222ee9&callback=init2"></script>
-<!--引入UI组件库（1.1版本） -->
-<script src="//webapi.amap.com/ui/1.1/main.js"></script>
+                },
+                copy(selector) {
+                    let transfer = document.querySelector(selector);
+                    transfer.focus();
+                    transfer.select();
+                    if (document.execCommand('copy')) {
+                        document.execCommand('copy');
+                    }
+                    transfer.blur();
+                    PanToast.alert('复制成功!', 'alert-info');
+                },
+            }
+        })
+    </script>
+    <!--异步加载 高德地图JSAPI ，注意 callback 参数-->
+    <script src="//webapi.amap.com/maps?v=2.0&key=b3875afaf8329a59548f53b600222ee9&callback=init2"></script>
+    <!--引入UI组件库（1.1版本） -->
+    <script src="//webapi.amap.com/ui/1.1/main.js"></script>
 </body>
 
 </html>
