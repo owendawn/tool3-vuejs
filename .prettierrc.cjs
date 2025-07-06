@@ -9,7 +9,7 @@ module.exports = {
    * @default 80
    * @type {number}
    */
-  printWidth: 120,
+  printWidth: 140,
   /**
    * 缩进的空格数量
    * @default 2

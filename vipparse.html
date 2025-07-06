@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="overflow: hidden;">
   <head>
     <meta charset="utf-8" />
     <title>Vip Parser</title>
@@ -94,11 +94,11 @@
     <div id="root" style="height: 100%">
       <pan-navbar title="VIP解析"></pan-navbar>
 
-      <div class="mainBody mainContainer">
-        <div class="content" style="background-color: black; height: calc(100% - 2.37rem)">
+      <div class="mainBody mainContainer" style="height:calc(100% - 52px)">
+        <div class="content" style="background-color: black; height: calc(100% - 2.37rem);margin-bottom: 3px;">
           <iframe width="100%" height="100%" :src="playUrl" style="border: 0"></iframe>
         </div>
-        <div class="field has-addons" style="margin-top: -5rem; justify-content: center">
+        <div class="field has-addons" style="justify-content: center;margin-bottom: 0;">
           <p class="control" style="max-width: 40%">
             <span class="select">
               <select v-model="chooseParserTemp" aria-label="">
@@ -139,60 +139,22 @@
         chooseParser: '',
         chooseParserTemp: '',
         chooseParserIndex: -1,
-        // url: 'https://www.mgtv.com/b/345879/10142323.html',
         url: '',
+        url: 'https://www.mgtv.com/b/345879/10142323.html',
         playUrl: 'about:blank',
         u: '',
         pickerData: [],
         vipParser: [
-          {
-            newTab: false,
-            tengxun: false,
-            youku: false,
-            iqiyi: true,
-            mangguo: false,
-            url: 'https://jx.555959.xyz/player/?url='
-          },
-          {
-            newTab: false,
-            tengxun: false,
-            youku: false,
-            iqiyi: true,
-            mangguo: false,
-            url: 'https://jx.973973.xyz/?url='
-          },
-          {
-            newTab: false,
-            tengxun: false,
-            youku: false,
-            iqiyi: true,
-            mangguo: false,
-            url: 'https://jx.nnxv.cn/tv.php?url='
-          },
-          {
-            newTab: false,
-            tengxun: false,
-            youku: false,
-            iqiyi: true,
-            mangguo: false,
-            url: 'https://jx.playerjy.com/?url='
-          },
-          {
-            newTab: false,
-            tengxun: false,
-            youku: true,
-            iqiyi: false,
-            mangguo: true,
-            url: 'http://jiexi44.qmbo.cn/jiexi/?url='
-          },
-          {
-            newTab: false,
-            tengxun: false,
-            youku: true,
-            iqiyi: false,
-            mangguo: true,
-            url: 'https://jx.618g.com/?url='
-          }
+          { newTab: false, tengxun: false, youku: true, iqiyi: true, mangguo: true, url: 'https://jx.nnxv.cn/tv.php?url=' },
+          { newTab: false, tengxun: false, youku: false, iqiyi: true, mangguo: true, url: 'https://jx.555959.xyz/player/?url=' },
+          { newTab: false, tengxun: false, youku: false, iqiyi: true, mangguo: true, url: 'https://jx.973973.xyz/?url=' },
+          { newTab: false, tengxun: true, youku: false, iqiyi: true, mangguo: false, url: 'https://jx.playerjy.com/?url=' },
+          { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: true, url: 'https://z1.m1907.top/?jx=', isEncode: true },
+          { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: true, url: 'https://jx.xmflv.com/?url=' },
+          { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: true, url: 'https://jx.m3u8.tv/jiexi/?url=' },
+          { newTab: false, tengxun: false, youku: false, iqiyi: false, mangguo: true, url: 'https://ckmov.ccyjjd.com/ckmov/?url=' },
+          { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: false, url: 'https://www.yemu.xyz/?url=' },
+          { newTab: false, tengxun: false, youku: false, iqiyi: false, mangguo: false, url: 'https://jx.ppflv.com/?url=' },
         ]
       },
       mounted() {
@@ -247,7 +209,7 @@
             if (it.url === this.chooseParserTemp) {
               this.chooseParserIndex = idx
               this.chooseParser = it.name
-              const url = it.url + this.url
+              let url = it.url + this.url
               if (!this.url) {
                 if (window.location.search) {
                   window.location.href = 'vipparse.html'
@@ -257,6 +219,9 @@
                 if (this.u != cu) {
                   window.location.href = 'vipparse.html?u=' + cu
                 } else {
+                  if (it.isEncode) {
+                    url = it.url + encodeURIComponent(this.url)
+                  }
                   if (it.newTab) {
                     this.playUrl = 'about:blank'
                     console.log('新窗口跳转', url)
