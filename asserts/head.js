@@ -7,7 +7,7 @@ document.writeln(`
 
     <!-- css  -->
     <link rel="stylesheet" href="./asserts/bulma-1.0.3/bulma.min.css">
-    <link href="./asserts/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet">
+    <link href="./asserts/fontawesome-free-6.7.2-web/css/all.min.css" rel="stylesheet">
 
     <!-- lib -->
     <script crossorigin="anonymous" src="https://lib.baomitu.com/vue/2.6.11/vue.min.js"></script>
