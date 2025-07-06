@@ -99,14 +99,14 @@
           <iframe width="100%" height="100%" :src="playUrl" style="border: 0"></iframe>
         </div>
         <div class="field has-addons" style="margin-top: -5rem; justify-content: center">
-          <p class="control" style="max-width: 30%">
+          <p class="control" style="max-width: 40%">
             <span class="select">
               <select v-model="chooseParserTemp" aria-label="">
                 <option v-for="(it,idx) in vipParser" :value="it.url">{{it.name}}</option>
               </select>
             </span>
           </p>
-          <p class="control" style="min-width: 50%">
+          <p class="control" style="min-width: 40%">
             <input class="input" type="text" placeholder="视频地址" v-model="url" style="color: #948787" />
           </p>
           <p class="control">
@@ -147,10 +147,42 @@
           {
             newTab: false,
             tengxun: false,
+            youku: false,
+            iqiyi: true,
+            mangguo: false,
+            url: 'https://jx.555959.xyz/player/?url='
+          },
+          {
+            newTab: false,
+            tengxun: false,
+            youku: false,
+            iqiyi: true,
+            mangguo: false,
+            url: 'https://jx.973973.xyz/?url='
+          },
+          {
+            newTab: false,
+            tengxun: false,
+            youku: false,
+            iqiyi: true,
+            mangguo: false,
+            url: 'https://jx.nnxv.cn/tv.php?url='
+          },
+          {
+            newTab: false,
+            tengxun: false,
+            youku: false,
+            iqiyi: true,
+            mangguo: false,
+            url: 'https://jx.playerjy.com/?url='
+          },
+          {
+            newTab: false,
+            tengxun: false,
             youku: true,
             iqiyi: false,
             mangguo: true,
-            url: 'https://660e.com/?url='
+            url: 'http://jiexi44.qmbo.cn/jiexi/?url='
           },
           {
             newTab: false,
@@ -175,11 +207,7 @@
       watch: {},
       methods: {
         init(rurl) {
-          let replaceStr = '⇿'
-          replaceStr = '↔'
-          replaceStr = '↠'
-          replaceStr = '↝'
-          replaceStr = '⇴'
+          let replaceStr = '◯'
           // replaceStr = '⇝'
           // replaceStr = '↛'
           // replaceStr = '↣'
@@ -188,14 +216,11 @@
 
           this.vipParser.forEach((it, idx, all) => {
             it.name =
-              (it.tengxun ? 'ⓣ' : replaceStr) +
-              '_' +
-              (it.youku ? 'ⓨ' : replaceStr) +
-              '_' +
-              (it.iqiyi ? 'ⓘ' : replaceStr) +
-              '_' +
-              (it.mangguo ? 'ⓜ' : replaceStr) +
-              ' . ' +
+              (it.tengxun ? 'Ⓣ' : replaceStr) +
+              (it.youku ? 'Ⓨ' : replaceStr) +
+              (it.iqiyi ? 'Ⓘ' : replaceStr) +
+              (it.mangguo ? 'Ⓜ' : replaceStr) +
+              '-' +
               this.getName(it.url) +
               (it.newTab ? ' +' : '')
             if (rurl && rurl.indexOf(it.url) == 0) {
