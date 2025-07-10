@@ -1,124 +1,148 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Word Transfer</title>
     <script src="./asserts/head.js"></script>
-</head>
+  </head>
 
-<body style="overflow: hidden;">
-<div id="root" style="height:100%;">
-    <pan-navbar title="文字转换"></pan-navbar>
+  <body style="overflow: hidden">
+    <div id="root" style="height: 100%">
+      <pan-navbar title="文字转换"></pan-navbar>
 
-    <div class="mainContainer">
+      <div class="mainContainer">
         <div class="p-3">
-
-            <div class="field">
-                <label class="label">原始内容
-                    <button class="button is-outline is-small" type="button" @click="copy('#from')"><i
-                        class="fa fa-copy"></i></button>
-                </label>
-                <div class="control">
-                    <textarea class="textarea"  id="from" rows="3" v-model="raw"></textarea>
-                </div>
+          <div class="field">
+            <label class="label">
+              原始内容
+              <button class="button is-outline is-small" type="button" @click="copy('#from')"><i class="fa fa-copy"></i></button>
+            </label>
+            <div class="control">
+              <textarea class="textarea" id="from" rows="3" v-model="raw"></textarea>
             </div>
+          </div>
 
-            <div class="field mb-3">
-                <label class="label">转换内容
-                    <button class="button is-outline is-small" type="button" @click="copy('#target')"><i
-                            class="fa fa-copy"></i></button>
-                </label>
-                <div class="control">
-                    <textarea class="textarea"  id="target" rows="3" v-model="newVal"></textarea>
-                </div>
-                <div class="control">
-                    <button class="button is-dark is-success float-right" type="button" @click="rechange()"><i
-                            class="fa fa-exchange-alt"></i></button>
-                </div>
+          <div class="field mb-3">
+            <label class="label">
+              转换内容
+              <button class="button is-outline is-small" type="button" @click="copy('#target')"><i class="fa fa-copy"></i></button>
+            </label>
+            <div class="control">
+              <textarea class="textarea" id="target" rows="3" v-model="newVal"></textarea>
             </div>
-            <hr style="margin-top: 48px;">
-            <div class="field has-addons has-addons-centered">
-                <p class="control"><button class="button is-success is-small is-dark" @click="chineseToUnicode">中文转Unicode</button></p>
-                <p class="control"><button class="button is-success is-small is-dark" @click="unicodeToChinese">Unicode转中文</button></p>
+            <div class="control">
+              <button class="button is-dark is-success float-right" type="button" @click="rechange()">
+                <i class="fa fa-exchange-alt"></i>
+              </button>
             </div>
-            <hr style="margin-top: 24px;">
-            <div class="field has-addons has-addons-centered">
-                <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Lowercase">MD5小写</button></p>
-                <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Uppercase">MD5大写</button></p>
-            </div>
-
-
+          </div>
+          <hr style="margin-top: 48px" />
+          <div class="field has-addons has-addons-centered">
+            <p class="control"><button class="button is-success is-small is-dark" @click="chineseToUnicode">中文转Unicode</button></p>
+            <p class="control"><button class="button is-success is-small is-dark" @click="unicodeToChinese">Unicode转中文</button></p>
+          </div>
+          <hr style="margin-top: 24px" />
+          <div class="field has-addons has-addons-centered">
+            <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Lowercase">MD5小写</button></p>
+            <p class="control"><button class="button is-success is-small is-dark" @click="toMd5Uppercase">MD5大写</button></p>
+          </div>
+          <hr style="margin-top: 24px" />
+          <div class="field has-addons has-addons-centered">
+            <p class="control">
+              <button class="button is-success is-small is-dark" @click="strToUtf8Bytes">中文转UTF8格式byte数组</button>
+            </p>
+            <p class="control">
+              <button class="button is-success is-small is-dark" @click="utf8BytesToStr">UTF8格式byte数组转中文</button>
+            </p>
+          </div>
         </div>
-
+      </div>
     </div>
-</div>
 
-
-</div>
-
-
-<script src="./asserts/md5.js"></script>
-<script src="./asserts/encrypt.util.js"></script>
-<script>
-    new Vue({
+    <script src="./asserts/md5.js"></script>
+    <script src="./asserts/encrypt.util.js"></script>
+    <script>
+      new Vue({
         el: '#root',
         data() {
-            return {
-                raw: '',
-                newVal: '',
-            }
+          return {
+            raw: '',
+            newVal: ''
+          }
         },
-        mounted() {
-        },
+        mounted() {},
         methods: {
-            copy(selector) {
-                let transfer = document.querySelector(selector);
-                transfer.focus();
-                transfer.select();
-                if (document.execCommand('copy')) {
-                    document.execCommand('copy');
-                }
-                transfer.blur();
-                PanToast.alert('复制成功!', 'alert-info');
-            },
-            rechange() {
-                var tmp = this.raw
-                this.raw = this.newVal
-                this.newVal = tmp
-            },
-            chineseToUnicode() {
-                var chineseStr = this.raw
-                if (chineseStr === '') {
-                    return
-                }
-                let unicodeStr = '';
-                for (let i = 0, iLength = chineseStr.length; i < iLength; i++) {
-                    unicodeStr += '\\\\u' + chineseStr.charCodeAt(i).toString(16);
-                }
-                this.newVal = unicodeStr;
-            },
-            unicodeToChinese() {
-                var unicodeStr = this.raw
-                if (unicodeStr === '') {
-                    return
-                }
-                unicodeStr = unicodeStr.split('\\u');
-                let chineseStr = '';
-                for (let i = 0, iLength = unicodeStr.length; i < iLength; i++) {
-                    chineseStr += String.fromCharCode(parseInt(unicodeStr[i], 16));
-                }
-                this.newVal = chineseStr;
-            },
-            toMd5Lowercase(){
-                this.newVal=hex_md5(this.raw).toLowerCase()
-            },
-            toMd5Uppercase(){
-                this.newVal=hex_md5(this.raw).toUpperCase()
+          copy(selector) {
+            let transfer = document.querySelector(selector)
+            transfer.focus()
+            transfer.select()
+            if (document.execCommand('copy')) {
+              document.execCommand('copy')
             }
+            transfer.blur()
+            PanToast.alert('复制成功!', 'alert-info')
+          },
+          rechange() {
+            var tmp = this.raw
+            this.raw = this.newVal
+            this.newVal = tmp
+          },
+          chineseToUnicode() {
+            var chineseStr = this.raw
+            if (chineseStr === '') {
+              return
+            }
+            let unicodeStr = ''
+            for (let i = 0, iLength = chineseStr.length; i < iLength; i++) {
+              unicodeStr += '\\\\u' + chineseStr.charCodeAt(i).toString(16)
+            }
+            this.newVal = unicodeStr
+          },
+          unicodeToChinese() {
+            var unicodeStr = this.raw
+            if (unicodeStr === '') {
+              return
+            }
+            unicodeStr = unicodeStr.split('\\u')
+            let chineseStr = ''
+            for (let i = 0, iLength = unicodeStr.length; i < iLength; i++) {
+              chineseStr += String.fromCharCode(parseInt(unicodeStr[i], 16))
+            }
+            this.newVal = chineseStr
+          },
+          strToUtf8Bytes() {
+            var str = this.raw
+            var result = new Array()
+            var k = 0
+            for (var i = 0; i < str.length; i++) {
+              var j = encodeURI(str[i])
+              if (j.length == 1) {
+                // 未转换的字符
+                result[k++] = j.charCodeAt(0)
+              } else {
+                // 转换成%XX形式的字符
+                var bytes = j.split('%')
+                for (var l = 1; l < bytes.length; l++) {
+                  result[k++] = parseInt('0x' + bytes[l])
+                }
+              }
+            }
+            this.newVal = JSON.stringify(result)
+          },
+          utf8BytesToStr() {
+            var bytes = JSON.parse(this.raw)
+            const utf8Array = new Uint8Array(bytes) // "Hello"
+            const decoder = new TextDecoder('utf-8')
+            this.newVal = decoder.decode(utf8Array)
+          },
+          toMd5Lowercase() {
+            this.newVal = hex_md5(this.raw).toLowerCase()
+          },
+          toMd5Uppercase() {
+            this.newVal = hex_md5(this.raw).toUpperCase()
+          }
         }
-    })
-</script>
-</body>
-
+      })
+    </script>
+  </body>
 </html>
