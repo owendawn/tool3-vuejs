@@ -88,52 +88,16 @@
             this.newVal = tmp
           },
           chineseToUnicode() {
-            var chineseStr = this.raw
-            if (chineseStr === '') {
-              return
-            }
-            let unicodeStr = ''
-            for (let i = 0, iLength = chineseStr.length; i < iLength; i++) {
-              unicodeStr += '\\\\u' + chineseStr.charCodeAt(i).toString(16)
-            }
-            this.newVal = unicodeStr
+            this.newVal = PanUtil.chineseToUnicode(this.raw)
           },
           unicodeToChinese() {
-            var unicodeStr = this.raw
-            if (unicodeStr === '') {
-              return
-            }
-            unicodeStr = unicodeStr.split('\\u')
-            let chineseStr = ''
-            for (let i = 0, iLength = unicodeStr.length; i < iLength; i++) {
-              chineseStr += String.fromCharCode(parseInt(unicodeStr[i], 16))
-            }
-            this.newVal = chineseStr
+            this.newVal = PanUtil.unicodeToChinese(this.raw)
           },
           strToUtf8Bytes() {
-            var str = this.raw
-            var result = new Array()
-            var k = 0
-            for (var i = 0; i < str.length; i++) {
-              var j = encodeURI(str[i])
-              if (j.length == 1) {
-                // 未转换的字符
-                result[k++] = j.charCodeAt(0)
-              } else {
-                // 转换成%XX形式的字符
-                var bytes = j.split('%')
-                for (var l = 1; l < bytes.length; l++) {
-                  result[k++] = parseInt('0x' + bytes[l])
-                }
-              }
-            }
-            this.newVal = JSON.stringify(result)
+            this.newVal = PanUtil.strToUtf8Bytes(this.raw)
           },
           utf8BytesToStr() {
-            var bytes = JSON.parse(this.raw)
-            const utf8Array = new Uint8Array(bytes) // "Hello"
-            const decoder = new TextDecoder('utf-8')
-            this.newVal = decoder.decode(utf8Array)
+            this.newVal = PanUtil.utf8BytesToStr(this.raw)
           },
           toMd5Lowercase() {
             this.newVal = hex_md5(this.raw).toLowerCase()
