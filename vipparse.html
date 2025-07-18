@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="overflow: hidden;">
+<html style="overflow: hidden">
   <head>
     <meta charset="utf-8" />
     <title>Vip Parser</title>
@@ -44,6 +44,19 @@
         justify-content: center;
       }
 
+      #root .mainBody {
+        height: calc(100% - 52px);
+        overflow: hidden;
+      }
+      #root .content {
+        background-color: black;
+        height: calc(100% - 2.37rem);
+        margin-bottom: 3px;
+      }
+      #root .control-area {
+        justify-content: center;
+        margin-bottom: 0;
+      }
       #root .compress {
         position: fixed;
         top: 50%;
@@ -82,10 +95,14 @@
       #root.isfull .mainBody {
         padding: 0 !important;
         margin-top: 0 !important;
+        height: 100%;
       }
 
-      #root.isfull .mainBody .controller {
+      #root.isfull .mainBody .control-area {
         display: none;
+      }
+      #root.isfull .mainBody .content {
+        margin-bottom: 0;
       }
     </style>
   </head>
@@ -94,11 +111,11 @@
     <div id="root" style="height: 100%">
       <pan-navbar title="VIP解析"></pan-navbar>
 
-      <div class="mainBody mainContainer" style="height:calc(100% - 52px)">
-        <div class="content" style="background-color: black; height: calc(100% - 2.37rem);margin-bottom: 3px;">
+      <div class="mainBody mainContainer">
+        <div class="content">
           <iframe width="100%" height="100%" :src="playUrl" style="border: 0"></iframe>
         </div>
-        <div class="field has-addons" style="justify-content: center;margin-bottom: 0;">
+        <div class="field has-addons control-area">
           <p class="control" style="max-width: 40%">
             <span class="select">
               <select v-model="chooseParserTemp" aria-label="">
@@ -115,7 +132,12 @@
             </button>
           </p>
           <p class="control">
-            <button class="button" @click="fullScreen" style="padding: 0.55rem">
+            <button class="button" @click="fullScreenWindow" style="padding: 0.55rem">
+              <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+            </button>
+          </p>
+          <p class="control">
+            <button class="button" @click="fullscreenAll" style="padding: 0.55rem">
               <i class="fa fa-expand"></i>
             </button>
           </p>
@@ -139,6 +161,7 @@
         chooseParser: '',
         chooseParserTemp: '',
         chooseParserIndex: -1,
+        fullScreen: false,
         url: '',
         // url: 'https://www.mgtv.com/b/345879/10142323.html',
         playUrl: 'about:blank',
@@ -154,7 +177,7 @@
           { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: true, url: 'https://jx.m3u8.tv/jiexi/?url=' },
           { newTab: false, tengxun: false, youku: false, iqiyi: false, mangguo: true, url: 'https://ckmov.ccyjjd.com/ckmov/?url=' },
           { newTab: false, tengxun: true, youku: false, iqiyi: false, mangguo: false, url: 'https://www.yemu.xyz/?url=' },
-          { newTab: false, tengxun: false, youku: false, iqiyi: false, mangguo: false, url: 'https://jx.ppflv.com/?url=' },
+          { newTab: false, tengxun: false, youku: false, iqiyi: false, mangguo: false, url: 'https://jx.ppflv.com/?url=' }
         ]
       },
       mounted() {
@@ -168,17 +191,20 @@
       },
       watch: {},
       methods: {
-        getU(){
-           // console.log(window.location)
-         var q= window.location.search
-         if(q&&q.length>1){
-          q=q.substring(1)
-          var arr=q.split('&').filter(it=>it.indexOf("u=")===0).map(it=>it.substr(2))
-          if(arr.length>0){
-            return arr[0]
+        getU() {
+          // console.log(window.location)
+          var q = window.location.search
+          if (q && q.length > 1) {
+            q = q.substring(1)
+            var arr = q
+              .split('&')
+              .filter((it) => it.indexOf('u=') === 0)
+              .map((it) => it.substr(2))
+            if (arr.length > 0) {
+              return arr[0]
+            }
           }
-         }
-         return null
+          return null
         },
         init(rurl) {
           let replaceStr = '◯'
@@ -206,10 +232,48 @@
           })
         },
         closeFullScreen() {
+          if(this.fullScreen){
+            this.cancelFullscreen()
+          }
           document.getElementById('root').className = ''
         },
-        fullScreen() {
+        fullScreenWindow() {
           document.getElementById('root').className = 'isfull'
+        },
+        fullscreenAll() {
+          this.fullScreenWindow()
+          this.fullScreen=true
+          const element = document.getElementById('root')
+          if (!document.fullscreenEnabled) {
+            return Promise.reject(new Error('全屏模式不可用'))
+          }
+          if (element.requestFullscreen) {
+            return element.requestFullscreen()
+          } else if (element.mozRequestFullScreen) {
+            /* Firefox */
+            return element.mozRequestFullScreen()
+          } else if (element.webkitRequestFullscreen) {
+            /* Chrome, Safari 和 Opera */
+            return element.webkitRequestFullscreen()
+          } else if (element.msRequestFullscreen) {
+            /* IE/Edge */
+            return element.msRequestFullscreen()
+          }
+          return Promise.reject(new Error('不支持全屏'))
+        },
+        cancelFullscreen() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen()
+          } else if (document.mozCancelFullScreen) {
+            /* Firefox */
+            document.mozCancelFullScreen()
+          } else if (document.webkitExitFullscreen) {
+            /* Chrome, Safari 和 Opera */
+            document.webkitExitFullscreen()
+          } else if (document.msExitFullscreen) {
+            /* IE/Edge */
+            document.msExitFullscreen()
+          }
         },
         chooseParse() {
           this.showParsePop = false
