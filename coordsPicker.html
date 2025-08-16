@@ -145,6 +145,7 @@
                 return {
                     mapGaoDe: null,
                     mapBaidu: null,
+                    gaodePicker: null,
 
                     homeLng: null,
                     homeLat: null,
@@ -163,7 +164,7 @@
             },
             mounted() {
                 this.initBaiduMap()
-                window.init2 = this.initGaoDeMap
+                window.init2 = ()=>{this.initGaoDeMap2()}
                 this.initCoords()
             },
             watch: {
@@ -242,6 +243,7 @@
                         if (that.mapGaoDe) {
                             var arr = wgs84togcj02(this.wgsLng, this.wgsLat)
                             that.mapGaoDe.setCenter([arr[0], arr[1]]);
+                            that.gaodePicker&&that.gaodePicker.setPosition([arr[0], arr[1]])
                         }
                     }
                 },
@@ -351,34 +353,70 @@
                         this.wgsStr = this.wgsLng + ',' + this.wgsLat
                     });
                 },
-                initGaoDeMap() {
+                // initGaoDeMap() {
+                //     var that = this
+                //     this.mapGaoDe = new AMap.Map('container', {
+                //         zoom: 16
+                //     })
+                //     AMapUI.loadUI(['misc/PositionPicker'], PositionPicker => {
+
+                //         var positionPicker = new PositionPicker({
+                //             mode: 'dragMap',//拖拽Marker模式
+                //             map: this.mapGaoDe,
+                //             iconStyle: {//自定义外观
+                //                 url: '//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
+                //                 size: [48, 48],  //要显示的点大小，将缩放图片
+                //                 ancher: [24, 40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
+                //             }
+                //         });
+                //         positionPicker.on('success', function (positionResult) {
+                //             console.log(positionResult)
+                //         });
+                //         positionPicker.on('fail', function (positionResult) {
+                //             console.error(positionResult)
+                //         });
+                //         positionPicker.start();
+                //         this.mapGaoDe.on('moveend',this. picker);
+                //         this.mapGaoDe.on('zoomend', this.picker);
+                //         this.mapGaoDe.on('complete', this.picker);
+                //     });
+
+                //     AMap.plugin('AMap.Geolocation', function () {
+                //         var geolocation = new AMap.Geolocation({
+                //             enableHighAccuracy: true, // 是否使用高精度定位，默认：true
+                //             timeout: 30000, // 设置定位超时时间，默认：无穷大
+                //             offset: [10, 20],  // 定位按钮的停靠位置的偏移量
+                //             zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                //             position: 'RB' //  定位按钮的排放位置,  RB表示右下
+                //         })
+
+                //         geolocation.getCurrentPosition(function (status, result) {
+                //             if (status === 'complete') {
+                //                 console.log('高德-位置：经度=', result.position.lng + ',纬度=' + result.position.lat, result)
+                //                 that.mapGaoDe.setCenter([result.position.lng, result.position.lat]);
+                //                 that.setPoint('gcj02', result.position.lng, result.position.lat)
+                //             } else {
+                //                 console.warn('高德-位置：', result)
+                //             }
+                //         });
+                //     });
+                // },
+                initGaoDeMap2() {
                     var that = this
                     this.mapGaoDe = new AMap.Map('container', {
                         zoom: 16
                     })
-                    AMapUI.loadUI(['misc/PositionPicker'], PositionPicker => {
-
-                        var positionPicker = new PositionPicker({
-                            mode: 'dragMap',//拖拽Marker模式
-                            map: this.mapGaoDe,
-                            iconStyle: {//自定义外观
-                                url: '//webapi.amap.com/ui/1.0/assets/position-picker2.png',//图片地址
-                                size: [48, 48],  //要显示的点大小，将缩放图片
-                                ancher: [24, 40],//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
-                            }
-                        });
-                        positionPicker.on('success', function (positionResult) {
-                            console.log(positionResult)
-                        });
-                        positionPicker.on('fail', function (positionResult) {
-                            console.error(positionResult)
-                        });
-                        positionPicker.start();
-                        this.mapGaoDe.on('moveend', this.picker);
-                        this.mapGaoDe.on('zoomend', this.picker);
-                        this.mapGaoDe.on('complete', this.picker);
+                    that.gaodePicker = new AMap.Marker({
+                        map: this.mapGaoDe,
+                        position: [0,0],
+                        // content: markerData.content,
+                        offset: new AMap.Pixel(0, 0)
+                    }); 
+                    this.mapGaoDe.on('click', (e) => {
+                        console.log(e)
+                        that.picker(e.lnglat)
+                        that.gaodePicker.setPosition(e.lnglat)
                     });
-
                     AMap.plugin('AMap.Geolocation', function () {
                         var geolocation = new AMap.Geolocation({
                             enableHighAccuracy: true, // 是否使用高精度定位，默认：true
@@ -398,25 +436,28 @@
                             }
                         });
                     });
-
-
-
                 },
-                picker() {
+                picker(lnglat){
                     var zoom = this.mapGaoDe.getZoom(); //获取当前地图级别
-                    var center = this.mapGaoDe.getCenter(); //获取当前地图中心位置
+                    var center = lnglat
+                    if(!center){ 
+                        center=this.mapGaoDe.getCenter(); //获取当前地图中心位置
+                    }
                     // console.log(center,arguments)
                     this.gcjLng = center.lng
                     this.gcjLat = center.lat
+                    this.gcjStr=this.gcjLng+','+this.gcjLat
+
                     
                     var bdarr = gcj02tobd09(this.gcjLng, this.gcjLat)
                     this.bdLng = bdarr[0]
                     this.bdLat = bdarr[1]
-                    
+                    this.bdStr = this.bdLng + ',' + this.bdLat
+            
                     var wgsArr = gcj02towgs84(this.gcjLng, this.gcjLat)
                     this.wgsLng = wgsArr[0]
                     this.wgsLat = wgsArr[1]
-                    
+                    this.wgsStr = this.wgsLng + ',' + this.wgsLat
                 },
                 showCoords(){
                     this.gcjStr = this.gcjLng + ',' + this.gcjLat
